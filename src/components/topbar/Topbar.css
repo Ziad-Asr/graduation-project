@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500&display=swap");
+
+.topbar {
+  height: 45px;
+  width: 100%;
+  background-color: #0076f1;
+  color: white;
+  font-weight: 400;
+  font-family: "Roboto", sans-serif;
+  padding: 0 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-name {
+  font-size: 20px;
+}
+
+.links {
+  position: relative;
+  cursor: pointer;
+}
+
+.links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  position: absolute;
+  right: 0;
+  min-width: 200px;
+  top: calc(100% + 5px);
+  display: none;
+  z-index: 1;
+}
+
+.toggle-hidden {
+  display: none;
+}
+
+.parent-div label {
+  cursor: pointer;
+}
+
+.toggle-hidden:checked + .parent-div ul {
+  display: block;
+}
+
+.toggle-hidden:checked ~ .parent-div ul,
+.toggle-label:hover + .parent-div ul {
+  display: block;
+}
+
+.links ul li .topbar-link {
+  display: block;
+  padding: 5px;
+  padding-left: 20px;
+  text-decoration: none;
+  transition: var(--main-duration);
+
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  color: #3a3e63;
+  line-height: 40px;
+  font-weight: 400;
+}
+
+.links ul li .topbar-link:hover {
+  padding-left: 25px;
+}
+
+.section-icons {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.section-icons .help {
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.section-icons .heltp-icon {
+  font-size: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-size: 30px;
+}
+
+.link {
+  position: relative;
+  cursor: pointer;
+}
