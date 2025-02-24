@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 import { GiSoccerField } from "react-icons/gi";
+import { FaCrown } from "react-icons/fa6";
 
 import "./Sidebar.css";
 
@@ -22,6 +23,16 @@ const SideBar = () => {
       path: "/playgrounds",
       name: "Playgrounds",
       icon: <GiSoccerField />,
+    },
+    {
+      path: "/employees",
+      name: "Employees",
+      icon: <GiSoccerField />,
+    },
+    {
+      path: "/playgrounds-owners",
+      name: "Playgrounds Owners",
+      icon: <FaCrown />,
     },
   ];
 

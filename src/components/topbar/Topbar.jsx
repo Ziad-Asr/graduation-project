@@ -11,6 +11,8 @@ const Topbar = () => {
   const routeNames = {
     "/users": "Dashboard / Users",
     "/playgrounds": "Dashboard / Playgrounds",
+    "/employees": "Dashboard / Employees",
+    "/playgrounds-owners": "Dashboard / Playgrounds Owners",
   };
   const sectionName = routeNames[location.pathname] || "Dashboard";
 

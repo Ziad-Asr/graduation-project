@@ -1,5 +1,4 @@
 import DataTable from "react-data-table-component";
-import "./Playgrounds.css";
 
 const playgrounds = [
   {
