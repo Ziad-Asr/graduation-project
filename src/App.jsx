@@ -1,11 +1,11 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import "./App.css";
 import Topbar from "./components/topbar/Topbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Users from "./pages/Users";
 import Playgrounds from "./pages/Playgrounds";
 import Employees from "./pages/Employees";
 import PlaygroundsOwners from "./pages/PlaygroundOwners";
+import "./app.css";
 
 function App() {
   return (
