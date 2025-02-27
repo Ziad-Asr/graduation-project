@@ -20,6 +20,7 @@
 }
 .bars {
   width: 30px;
+  cursor: pointer;
 }
 .hide {
   display: none;

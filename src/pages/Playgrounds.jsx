@@ -1,4 +1,5 @@
 import DataTable from "react-data-table-component";
+import SecondTopbar from "../components/secondTopbar/secondTopbar";
 
 const playgrounds = [
   {
@@ -203,31 +204,35 @@ const PlaygroundsPage = () => {
   };
 
   return (
-    <div className="container">
-      <DataTable
-        noHeader
-        defaultSortAsc={false}
-        pagination
-        highlightOnHover
-        columns={columns}
-        data={playgrounds || []}
-        customStyles={customStyles}
-        paginationRowsPerPageOptions={[5, 10, 15]}
-        noDataComponent={
-          <div
-            style={{
-              color: "black",
-              fontSize: "16px",
-              textAlign: "center",
-              margin: "20px 0",
-              fontWeight: "bold",
-            }}
-          >
-            There are no records to display
-          </div>
-        }
-      />
-    </div>
+    <>
+      <SecondTopbar />
+
+      <div className="container">
+        <DataTable
+          noHeader
+          defaultSortAsc={false}
+          pagination
+          highlightOnHover
+          columns={columns}
+          data={playgrounds || []}
+          customStyles={customStyles}
+          paginationRowsPerPageOptions={[5, 10, 15]}
+          noDataComponent={
+            <div
+              style={{
+                color: "black",
+                fontSize: "16px",
+                textAlign: "center",
+                margin: "20px 0",
+                fontWeight: "bold",
+              }}
+            >
+              There are no records to display
+            </div>
+          }
+        />
+      </div>
+    </>
   );
 };
 

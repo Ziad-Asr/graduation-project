@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { FaBars } from "react-icons/fa";
+import { GrUserWorker } from "react-icons/gr";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
@@ -15,24 +16,24 @@ const SideBar = () => {
 
   const routes = [
     {
-      path: "/users",
-      name: "Users",
-      icon: <FaUsers />,
-    },
-    {
       path: "/playgrounds",
       name: "Playgrounds",
-      icon: <GiSoccerField />,
-    },
-    {
-      path: "/employees",
-      name: "Employees",
       icon: <GiSoccerField />,
     },
     {
       path: "/playgrounds-owners",
       name: "Playgrounds Owners",
       icon: <FaCrown />,
+    },
+    {
+      path: "/users",
+      name: "Users",
+      icon: <FaUsers />,
+    },
+    {
+      path: "/employees",
+      name: "Employees",
+      icon: <GrUserWorker />,
     },
   ];
 
