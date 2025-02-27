@@ -1,5 +1,6 @@
 import DataTable from "react-data-table-component";
 import SecondTopbar from "../components/secondTopbar/secondTopbar";
+import Map from "../components/map/Map";
 
 const playgrounds = [
   {
@@ -208,6 +209,8 @@ const PlaygroundsPage = () => {
       <SecondTopbar />
 
       <div className="container">
+        <Map />
+
         <DataTable
           noHeader
           defaultSortAsc={false}
