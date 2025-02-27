@@ -1,5 +1,5 @@
 import DataTable from "react-data-table-component";
-import SecondTopbar from "../components/secondTopbar/secondTopbar";
+import SecondTopbar from "../components/secondTopbar/SecondTopbar";
 import Map from "../components/map/Map";
 
 const playgrounds = [
