@@ -7,19 +7,23 @@ import Employees from "./pages/Employees";
 import PlaygroundsOwners from "./pages/PlaygroundOwners";
 import Login from "./pages/login/Login";
 import "./app.css";
+import Register from "./pages/register/Register";
 
 function App() {
   const location = useLocation();
-  const isLoginPage = location.pathname.startsWith("/login");
+  const isAuthPage =
+    location.pathname.startsWith("/login") ||
+    location.pathname.startsWith("/register");
 
   return (
     <div className="app">
-      {!isLoginPage && <Sidebar />}
+      {!isAuthPage && <Sidebar />}
       <div className="page-content">
-        {!isLoginPage && <Topbar />}
+        {!isAuthPage && <Topbar />}
         <div className="web-routes">
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/users" element={<Users />} />
             <Route path="/playgrounds" element={<Playgrounds />} />
