@@ -31,7 +31,7 @@ const Register = () => {
           className={styles.register_images}
         />
         <div className={styles.left_text}>
-          Join us and manage <br />
+          One platform for managing <br />
           <span className={styles.left_bold_text}>
             all manufacturing aspects
           </span>
