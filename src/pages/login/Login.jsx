@@ -1,14 +1,24 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/slices/login/thunk";
+import { useNavigate } from "react-router-dom";
+import { BiSolidHide, BiShow } from "react-icons/bi";
+import { toast } from "react-toastify";
+import styles from "./Login.module.css";
 import logo from "../../assets/logo.png";
 import loginImages from "../../assets/login_image.png";
-import { BiSolidHide, BiShow } from "react-icons/bi";
-import styles from "./Login.module.css";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [checkboxLabel, setCheckboxLabel] = useState("app admin");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { userLoginResponseInfo, loading, error } = useSelector(
+    (state) => state.login || {}
+  );
+
+  console.log("userLoginResponseInfo", userLoginResponseInfo);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevState) => !prevState);
@@ -20,18 +30,26 @@ const Login = () => {
     );
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     const form = event.target;
     const email = form["email"].value;
     const password = form["password"].value;
 
-    console.log({
-      email: email,
-      password: password,
-      checkboxLabel: checkboxLabel,
-    });
+    try {
+      const result = await dispatch(login({ email, password }));
+
+      if (login.fulfilled.match(result)) {
+        toast.success("Logged in successfully!");
+        navigate("/playgrounds");
+      } else {
+        toast.error(result.payload || "Login failed!");
+      }
+    } catch (error) {
+      console.error("Login error: ", error);
+      toast.error("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -54,20 +72,22 @@ const Login = () => {
 
         <h3 className={styles.login_title}>
           Login as
-          {checkboxLabel === "app admin" ? " Playground Owner" : " Admin"}
+          {checkboxLabel === "app admin" ? "Playground Owner" : "Admin"}
         </h3>
 
-        <div className={styles.button_wrapper}>
-          <button className={`${styles.toggle_button} ${styles.active}`}>
-            Login
-          </button>
-          <button
-            className={styles.toggle_button}
-            onClick={() => navigate("/register")}
-          >
-            Register
-          </button>
-        </div>
+        {checkboxLabel === "app admin" && (
+          <div className={styles.button_wrapper}>
+            <button className={`${styles.toggle_button} ${styles.active}`}>
+              Login
+            </button>
+            <button
+              className={styles.toggle_button}
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </button>
+          </div>
+        )}
 
         <div className={styles.form_wrapper}>
           <form onSubmit={onSubmitHandler}>
@@ -91,22 +111,24 @@ const Login = () => {
                 className={styles.password_toggle_icon}
               >
                 {passwordVisible ? (
-                  <BiShow size={"30px"} />
+                  <BiShow size={30} />
                 ) : (
-                  <BiSolidHide size={"30px"} />
+                  <BiSolidHide size={30} />
                 )}
               </span>
             </div>
 
             <div className={styles.checkbox_wrapper}>
               <label className={styles.checkbox_label}>
-                Login as
-                <span onClick={toggleCheckboxLabel}> {checkboxLabel}</span>
+                Login as{" "}
+                <span onClick={toggleCheckboxLabel}>{checkboxLabel}</span>
               </label>
             </div>
 
-            <button type="submit" className={styles.submit}>
-              Login
+            {error && <p className={styles.error_message}>{error}</p>}
+
+            <button type="submit" className={styles.submit} disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
         </div>
