@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "./thunk";
+import { login, register } from "./thunk";
 
 const initialState = {
   userLoginResponseInfo: null,
+  userRegisterResponseInfo: null,
   loading: false,
+  registerLoading: false,
   error: null,
+  registerError: null,
 };
 
 const loginSlice = createSlice({
@@ -13,6 +16,7 @@ const loginSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Login cases
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -29,6 +33,24 @@ const loginSlice = createSlice({
         state.loading = false;
         state.userLoginResponseInfo = null;
         state.error = action.payload || "Something went wrong";
+      })
+      // Register cases
+      .addCase(register.pending, (state) => {
+        state.registerLoading = true;
+        state.registerError = null;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.registerLoading = false;
+        if (typeof action.payload === "object" && action.payload !== null) {
+          state.userRegisterResponseInfo = action.payload;
+        } else {
+          state.registerError = "Invalid response data";
+        }
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.registerLoading = false;
+        state.userRegisterResponseInfo = null;
+        state.registerError = action.payload || "Something went wrong";
       });
   },
 });
