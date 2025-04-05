@@ -8,12 +8,27 @@ export const login = createAsyncThunk(
     try {
       const response = await useInsertData(`/auth/login`, data);
 
+      console.log("response");
+      console.log(response);
+
       if (!response || !response.data || !response.data.token) {
         throw new Error("Invalid response from server.");
       }
 
       const { message, token } = response.data;
+
       localStorage.setItem("userToken", token);
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          name: response.data.name ? response.data.name : null,
+          email: response.data.email ? response.data.email : null,
+          phoneNumber: response.data.phoneNumber
+            ? response.data.phoneNumber
+            : null,
+          role: response.data.role ? response.data.role : null,
+        })
+      );
 
       toast.success(message);
       return response.data;

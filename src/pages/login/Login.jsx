@@ -72,7 +72,7 @@ const Login = () => {
 
         <h3 className={styles.login_title}>
           Login as
-          {checkboxLabel === "app admin" ? "Playground Owner" : "Admin"}
+          {checkboxLabel === "app admin" ? " Playground Owner" : " Admin"}
         </h3>
 
         {checkboxLabel === "app admin" && (
