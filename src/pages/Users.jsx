@@ -1,177 +1,38 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
-
-const users = [
-  {
-    name: "Ahmed Ali",
-    age: 30,
-    email: "ahmed.ali@example.com",
-    phone: "+20 1012345678",
-    city: "Cairo",
-  },
-  {
-    name: "Sara Hassan",
-    age: 25,
-    email: "sara.hassan@example.com",
-    phone: "+20 1023456789",
-    city: "Alexandria",
-  },
-  {
-    name: "Omar Khaled",
-    age: 35,
-    email: "omar.khaled@example.com",
-    phone: "+20 1034567890",
-    city: "Giza",
-  },
-  {
-    name: "Nour Mohamed",
-    age: 28,
-    email: "nour.mohamed@example.com",
-    phone: "+20 1045678901",
-    city: "Luxor",
-  },
-  {
-    name: "Hassan Ibrahim",
-    age: 40,
-    email: "hassan.ibrahim@example.com",
-    phone: "+20 1056789012",
-    city: "Aswan",
-  },
-  {
-    name: "Mona Adel",
-    age: 22,
-    email: "mona.adel@example.com",
-    phone: "+20 1067890123",
-    city: "Port Said",
-  },
-  {
-    name: "Kareem Mostafa",
-    age: 33,
-    email: "kareem.mostafa@example.com",
-    phone: "+20 1078901234",
-    city: "Mansoura",
-  },
-  {
-    name: "Yasmin Samir",
-    age: 27,
-    email: "yasmin.samir@example.com",
-    phone: "+20 1089012345",
-    city: "Suez",
-  },
-  {
-    name: "Tamer Hussein",
-    age: 38,
-    email: "tamer.hussein@example.com",
-    phone: "+20 1090123456",
-    city: "Tanta",
-  },
-  {
-    name: "Dina Amr",
-    age: 29,
-    email: "dina.amr@example.com",
-    phone: "+20 1101234567",
-    city: "Ismailia",
-  },
-  {
-    name: "Ahmed Ali",
-    age: 30,
-    email: "ahmed.ali@example.com",
-    phone: "+20 1012345678",
-    city: "Cairo",
-  },
-  {
-    name: "Sara Hassan",
-    age: 25,
-    email: "sara.hassan@example.com",
-    phone: "+20 1023456789",
-    city: "Alexandria",
-  },
-  {
-    name: "Omar Khaled",
-    age: 35,
-    email: "omar.khaled@example.com",
-    phone: "+20 1034567890",
-    city: "Giza",
-  },
-  {
-    name: "Nour Mohamed",
-    age: 28,
-    email: "nour.mohamed@example.com",
-    phone: "+20 1045678901",
-    city: "Luxor",
-  },
-  {
-    name: "Hassan Ibrahim",
-    age: 40,
-    email: "hassan.ibrahim@example.com",
-    phone: "+20 1056789012",
-    city: "Aswan",
-  },
-  {
-    name: "Mona Adel",
-    age: 22,
-    email: "mona.adel@example.com",
-    phone: "+20 1067890123",
-    city: "Port Said",
-  },
-  {
-    name: "Kareem Mostafa",
-    age: 33,
-    email: "kareem.mostafa@example.com",
-    phone: "+20 1078901234",
-    city: "Mansoura",
-  },
-  {
-    name: "Yasmin Samir",
-    age: 27,
-    email: "yasmin.samir@example.com",
-    phone: "+20 1089012345",
-    city: "Suez",
-  },
-  {
-    name: "Tamer Hussein",
-    age: 38,
-    email: "tamer.hussein@example.com",
-    phone: "+20 1090123456",
-    city: "Tanta",
-  },
-  {
-    name: "Dina Amr",
-    age: 29,
-    email: "dina.amr@example.com",
-    phone: "+20 1101234567",
-    city: "Ismailia",
-  },
-];
+import { fetchUsers } from "../store/slices/users/thunk";
 
 const Users = () => {
+  const dispatch = useDispatch();
+  const { users, loading, error } = useSelector((state) => state.usersSlice);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
   const columns = [
     {
-      name: "Name",
-      selector: (row) => row.name,
+      name: "First Name",
+      selector: (row) => row.firstName || "N/A",
       sortable: true,
       center: true,
     },
     {
-      name: "Age",
-      selector: (row) => row.age,
+      name: "Last Name",
+      selector: (row) => row.lastName || "N/A",
       sortable: true,
       center: true,
     },
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row) => row.email || "N/A",
       sortable: true,
       center: true,
     },
     {
-      name: "Phone",
-      selector: (row) => row.phone,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "City",
-      selector: (row) => row.city,
+      name: "Phone Number",
+      selector: (row) => row.phoneNumber || "N/A",
       sortable: true,
       center: true,
     },
@@ -183,6 +44,7 @@ const Users = () => {
         backgroundColor: "#f7f7f7",
         color: "#797981",
         fontSize: "15px",
+        minHeight: "50px",
       },
     },
     headCells: {
@@ -191,6 +53,14 @@ const Users = () => {
         color: "#797981",
         fontWeight: "bold",
         fontSize: "15px",
+        paddingLeft: "16px",
+        paddingRight: "16px",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "16px",
+        paddingRight: "16px",
       },
     },
     pagination: {
@@ -204,29 +74,56 @@ const Users = () => {
 
   return (
     <div className="container">
-      <DataTable
-        noHeader
-        defaultSortAsc={false}
-        pagination
-        highlightOnHover
-        columns={columns}
-        data={users || []}
-        customStyles={customStyles}
-        paginationRowsPerPageOptions={[5, 10, 15]}
-        noDataComponent={
-          <div
-            style={{
-              color: "black",
-              fontSize: "16px",
-              textAlign: "center",
-              margin: "20px 0",
-              fontWeight: "bold",
-            }}
-          >
-            There are no records to display
-          </div>
-        }
-      />
+      {loading ? (
+        <div
+          style={{
+            color: "black",
+            fontSize: "16px",
+            textAlign: "center",
+            margin: "20px 0",
+            fontWeight: "bold",
+          }}
+        >
+          Loading users...
+        </div>
+      ) : error ? (
+        <div
+          style={{
+            color: "red",
+            fontSize: "16px",
+            textAlign: "center",
+            margin: "20px 0",
+            fontWeight: "bold",
+          }}
+        >
+          {error}
+        </div>
+      ) : (
+        <DataTable
+          title="Users List"
+          defaultSortAsc={false}
+          pagination
+          highlightOnHover
+          columns={columns}
+          data={users || []}
+          customStyles={customStyles}
+          paginationRowsPerPageOptions={[5, 10, 15, 20, 25]}
+          paginationPerPage={10}
+          noDataComponent={
+            <div
+              style={{
+                color: "black",
+                fontSize: "16px",
+                textAlign: "center",
+                margin: "20px 0",
+                fontWeight: "bold",
+              }}
+            >
+              No users found
+            </div>
+          }
+        />
+      )}
     </div>
   );
 };
