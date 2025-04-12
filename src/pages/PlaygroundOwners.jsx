@@ -1,69 +1,133 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
+import { fetchPlaygroundOwners } from "../store/slices/playgroundOwners/thunk";
 
-const playgroundsOwners = [
-  {
-    name: "Mohamed Fathy",
-    playground: "Elite Sports Club",
-    email: "mohamed.fathy@example.com",
-    phone: "+20 1145678901",
-    city: "Cairo",
-  },
-  {
-    name: "Amina Khaled",
-    playground: "Greenfield Arena",
-    email: "amina.khaled@example.com",
-    phone: "+20 1156789012",
-    city: "Alexandria",
-  },
-  {
-    name: "Youssef Gamal",
-    playground: "Sunset Park",
-    email: "youssef.gamal@example.com",
-    phone: "+20 1167890123",
-    city: "Giza",
-  },
-];
+const PlaygroundOwners = () => {
+  const dispatch = useDispatch();
+  const { owners, loading, error } = useSelector(
+    (state) => state.playgroundOwnersSlice
+  );
 
-const PlaygroundsOwners = () => {
+  useEffect(() => {
+    dispatch(fetchPlaygroundOwners());
+  }, [dispatch]);
+
   const columns = [
-    { name: "Name", selector: (row) => row.name, sortable: true, center: true },
     {
-      name: "Playground",
-      selector: (row) => row.playground,
+      name: "First Name",
+      selector: (row) => row.firstName || "N/A",
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "Last Name",
+      selector: (row) => row.lastName || "N/A",
       sortable: true,
       center: true,
     },
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row) => row.email || "N/A",
       sortable: true,
       center: true,
     },
     {
-      name: "Phone",
-      selector: (row) => row.phone,
+      name: "Phone Number",
+      selector: (row) => row.phoneNumber || "N/A",
       sortable: true,
       center: true,
     },
-    { name: "City", selector: (row) => row.city, sortable: true, center: true },
   ];
+
+  const customStyles = {
+    rows: {
+      style: {
+        backgroundColor: "#f7f7f7",
+        color: "#797981",
+        fontSize: "15px",
+        minHeight: "50px",
+      },
+    },
+    headCells: {
+      style: {
+        backgroundColor: "#f7f7f7",
+        color: "#797981",
+        fontWeight: "bold",
+        fontSize: "15px",
+        paddingLeft: "16px",
+        paddingRight: "16px",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "16px",
+        paddingRight: "16px",
+      },
+    },
+    pagination: {
+      style: {
+        backgroundColor: "#f7f7f7",
+        color: "#797981",
+        fontSize: "15px",
+      },
+    },
+  };
 
   return (
     <div className="container">
-      <DataTable
-        noHeader
-        defaultSortAsc={false}
-        pagination
-        highlightOnHover
-        columns={columns}
-        data={playgroundsOwners || []}
-        paginationRowsPerPageOptions={[5, 10, 15]}
-        noDataComponent={
-          <div className="no-data">No playground owners found</div>
-        }
-      />
+      {loading ? (
+        <div
+          style={{
+            color: "black",
+            fontSize: "16px",
+            textAlign: "center",
+            margin: "20px 0",
+            fontWeight: "bold",
+          }}
+        >
+          Loading owners...
+        </div>
+      ) : error ? (
+        <div
+          style={{
+            color: "red",
+            fontSize: "16px",
+            textAlign: "center",
+            margin: "20px 0",
+            fontWeight: "bold",
+          }}
+        >
+          {error}
+        </div>
+      ) : (
+        <DataTable
+          title="Playground Owners List"
+          defaultSortAsc={false}
+          pagination
+          highlightOnHover
+          columns={columns}
+          data={owners || []}
+          customStyles={customStyles}
+          paginationRowsPerPageOptions={[5, 10, 15, 20, 25]}
+          paginationPerPage={10}
+          noDataComponent={
+            <div
+              style={{
+                color: "black",
+                fontSize: "16px",
+                textAlign: "center",
+                margin: "20px 0",
+                fontWeight: "bold",
+              }}
+            >
+              No owners found
+            </div>
+          }
+        />
+      )}
     </div>
   );
 };
 
-export default PlaygroundsOwners;
+export default PlaygroundOwners;
