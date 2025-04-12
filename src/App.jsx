@@ -2,7 +2,7 @@ import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Topbar from "./components/topbar/Topbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Users from "./pages/Users";
-import Playgrounds from "./pages/Playgrounds";
+import Facilities from "./pages/Facilities";
 import Employees from "./pages/Employees";
 import PlaygroundsOwners from "./pages/PlaygroundOwners";
 import Login from "./pages/login/Login";
@@ -26,8 +26,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/users" element={<Users />} />
-            <Route path="/playgrounds" element={<Playgrounds />} />
-            <Route path="/employees" element={<Employees />} />
+            <Route path="/facilities" element={<Facilities />} />
+            {/* <Route path="/employees" element={<Employees />} /> */}
             <Route path="/playgrounds-owners" element={<PlaygroundsOwners />} />
           </Routes>
         </div>

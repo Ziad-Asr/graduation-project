@@ -16,11 +16,6 @@ const SideBar = () => {
 
   const routes = [
     {
-      path: "/playgrounds",
-      name: "Playgrounds",
-      icon: <GiSoccerField />,
-    },
-    {
       path: "/playgrounds-owners",
       name: "Playgrounds Owners",
       icon: <FaCrown />,
@@ -30,10 +25,15 @@ const SideBar = () => {
       name: "Users",
       icon: <FaUsers />,
     },
+    // {
+    //   path: "/employees",
+    //   name: "Employees",
+    //   icon: <GrUserWorker />,
+    // },
     {
-      path: "/employees",
-      name: "Employees",
-      icon: <GrUserWorker />,
+      path: "/facilities",
+      name: "Facilities",
+      icon: <GiSoccerField />,
     },
   ];
 

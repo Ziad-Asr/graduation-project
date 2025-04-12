@@ -10,7 +10,7 @@ const Topbar = () => {
 
   const routeNames = {
     "/users": "Dashboard / Users",
-    "/playgrounds": "Dashboard / Playgrounds",
+    "/facilities": "Dashboard / Facilities",
     "/employees": "Dashboard / Employees",
     "/playgrounds-owners": "Dashboard / Playgrounds Owners",
   };
