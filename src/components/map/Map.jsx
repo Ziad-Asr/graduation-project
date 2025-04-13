@@ -1,15 +1,10 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import PropTypes from "prop-types";
 
-const center = [29.36, 47.983];
+const center = [30, 31.2];
 
-const markers = [
-  { position: [29.36, 47.984], name: "Marker 1" },
-  { position: [29.36, 47.989], name: "Marker 2" },
-  { position: [29.364, 47.987], name: "Marker 3" },
-];
-
-const Map = () => {
+const Map = ({ locations }) => {
   return (
     <div
       style={{
@@ -22,7 +17,7 @@ const Map = () => {
     >
       <MapContainer
         center={center}
-        zoom={15}
+        zoom={10}
         style={{ width: "100%", height: "100%" }}
       >
         <TileLayer
@@ -30,7 +25,7 @@ const Map = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
-        {markers.map((marker, index) => (
+        {locations.map((marker, index) => (
           <Marker key={index} position={marker.position}>
             <Popup>{marker.name}</Popup>
           </Marker>
@@ -38,6 +33,16 @@ const Map = () => {
       </MapContainer>
     </div>
   );
+};
+
+Map.propTypes = {
+  locations: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default Map;

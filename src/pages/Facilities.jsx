@@ -1,180 +1,56 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
+import { fetchFacilities } from "../store/slices/facilities/thunk";
 import SecondTopbar from "../components/secondTopbar/SecondTopbar";
 import Map from "../components/map/Map";
 
-const playgrounds = [
-  {
-    name: "Blue Sky Park",
-    location: "Cairo",
-    size: "Large",
-    facilities: "Swings, Climbing Wall, Outdoor Gym",
-    contact: "+20 1015674321",
-  },
-  {
-    name: "Riverfront Play Area",
-    location: "Alexandria",
-    size: "Medium",
-    facilities: "Slides, Water Fountain, Jogging Track",
-    contact: "+20 1026785432",
-  },
-  {
-    name: "Golden Sands Park",
-    location: "Hurghada",
-    size: "Large",
-    facilities: "Beach Access, Volleyball Court, Play Zone",
-    contact: "+20 1037896543",
-  },
-  {
-    name: "Palm Breeze Playground",
-    location: "Sharm El-Sheikh",
-    size: "Small",
-    facilities: "Trampoline, Kids Zone, Mini Golf",
-    contact: "+20 1048907654",
-  },
-  {
-    name: "Hilltop Fun Park",
-    location: "Giza",
-    size: "Medium",
-    facilities: "Basketball Court, Play Area, Open Gym",
-    contact: "+20 1059018765",
-  },
-  {
-    name: "Sunny Meadows",
-    location: "Aswan",
-    size: "Large",
-    facilities: "Slides, Swings, Football Field",
-    contact: "+20 1060129876",
-  },
-  {
-    name: "Adventure Cove",
-    location: "Luxor",
-    size: "Medium",
-    facilities: "Zip Line, Rock Climbing, Rope Course",
-    contact: "+20 1071230987",
-  },
-  {
-    name: "Green Oasis Park",
-    location: "Mansoura",
-    size: "Small",
-    facilities: "Benches, Open Fields, Walking Trails",
-    contact: "+20 1082341098",
-  },
-  {
-    name: "Forest Playland",
-    location: "Tanta",
-    size: "Large",
-    facilities: "Playground, Kids Gym, Nature Trails",
-    contact: "+20 1093452109",
-  },
-  {
-    name: "Desert Bloom Park",
-    location: "Minya",
-    size: "Medium",
-    facilities: "Skating Area, Picnic Tables, Jogging Track",
-    contact: "+20 1104563210",
-  },
-  {
-    name: "Mountain View Playground",
-    location: "Sohag",
-    size: "Small",
-    facilities: "Swings, Slides, Rock Climbing",
-    contact: "+20 1115674321",
-  },
-  {
-    name: "Starry Night Park",
-    location: "Fayoum",
-    size: "Large",
-    facilities: "Carousel, Swings, Play Area",
-    contact: "+20 1126785432",
-  },
-  {
-    name: "Seaside Fun Zone",
-    location: "Damietta",
-    size: "Medium",
-    facilities: "Beach Area, Water Slides, Kids Play Zone",
-    contact: "+20 1137896543",
-  },
-  {
-    name: "Magic Valley Park",
-    location: "Beni Suef",
-    size: "Small",
-    facilities: "Climbing Wall, Rope Course, Mini Trampoline",
-    contact: "+20 1148907654",
-  },
-  {
-    name: "Dreamland Playground",
-    location: "Ismailia",
-    size: "Large",
-    facilities: "Skate Park, Open Gym, Football Field",
-    contact: "+20 1159018765",
-  },
-  {
-    name: "Lush Gardens Park",
-    location: "Zagazig",
-    size: "Medium",
-    facilities: "Tennis Court, Walking Trails, Swings",
-    contact: "+20 1160129876",
-  },
-  {
-    name: "Sunflower Park",
-    location: "Kafr El-Sheikh",
-    size: "Small",
-    facilities: "Slides, Benches, Fountain",
-    contact: "+20 1171230987",
-  },
-  {
-    name: "Blue Lagoon Playground",
-    location: "Suez",
-    size: "Large",
-    facilities: "Boating, Water Sports, Kids Play Area",
-    contact: "+20 1182341098",
-  },
-  {
-    name: "Wildwood Adventure Park",
-    location: "New Cairo",
-    size: "Medium",
-    facilities: "Zip Line, Obstacle Course, Rock Climbing",
-    contact: "+20 1193452109",
-  },
-  {
-    name: "Rainbow Kids Park",
-    location: "Port Said",
-    size: "Large",
-    facilities: "Trampoline, Slides, Swings, Kids Gym",
-    contact: "+20 1204563210",
-  },
-];
+const Facilities = () => {
+  const dispatch = useDispatch();
+  const { facilities } = useSelector((state) => state.facilitiesSlice);
 
-const PlaygroundsPage = () => {
+  console.log("facilities");
+  console.log(facilities);
+
+  useEffect(() => {
+    dispatch(fetchFacilities());
+  }, [dispatch]);
+
+  const facilityLocations = facilities.map((facility) => ({
+    id: facility.id,
+    position: [facility.address.latitude, facility.address.longitude],
+    name: facility.name,
+  }));
+
   const columns = [
     {
-      name: "Playground Name",
+      name: "Facility Name",
       selector: (row) => row.name,
       sortable: true,
       center: true,
     },
     {
-      name: "Location",
-      selector: (row) => row.location,
+      name: "City",
+      selector: (row) => row.address.city,
       sortable: true,
       center: true,
     },
     {
-      name: "Size",
-      selector: (row) => row.size,
+      name: "Street Address",
+      selector: (row) => row.address.streetAddress,
       sortable: true,
       center: true,
     },
     {
-      name: "Facilities",
-      selector: (row) => row.facilities,
-      sortable: false,
+      name: "Opening Time",
+      selector: (row) => row.openingTime,
+      sortable: true,
       center: true,
     },
     {
-      name: "Contact",
-      selector: (row) => row.contact,
-      sortable: false,
+      name: "Closing Time",
+      selector: (row) => row.closingTime,
+      sortable: true,
       center: true,
     },
   ];
@@ -209,7 +85,7 @@ const PlaygroundsPage = () => {
       <SecondTopbar />
 
       <div className="container">
-        <Map />
+        <Map locations={facilityLocations} />
 
         <DataTable
           noHeader
@@ -217,7 +93,7 @@ const PlaygroundsPage = () => {
           pagination
           highlightOnHover
           columns={columns}
-          data={playgrounds || []}
+          data={facilities || []}
           customStyles={customStyles}
           paginationRowsPerPageOptions={[5, 10, 15]}
           noDataComponent={
@@ -239,4 +115,4 @@ const PlaygroundsPage = () => {
   );
 };
 
-export default PlaygroundsPage;
+export default Facilities;
