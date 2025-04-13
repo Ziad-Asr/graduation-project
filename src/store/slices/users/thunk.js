@@ -8,9 +8,6 @@ export const fetchUsers = createAsyncThunk(
     try {
       const response = await useGetData(`/AdminAuth/users`);
 
-      console.log("users response");
-      console.log(response);
-
       if (!response || !response) {
         throw new Error("Invalid response from server.");
       }

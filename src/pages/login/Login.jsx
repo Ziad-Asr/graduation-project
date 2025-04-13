@@ -42,7 +42,7 @@ const Login = () => {
 
       if (login.fulfilled.match(result)) {
         toast.success("Logged in successfully!");
-        navigate("/playgrounds");
+        navigate("/playgrounds-owners");
       } else {
         toast.error(result.payload || "Login failed!");
       }

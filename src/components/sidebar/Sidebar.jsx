@@ -35,6 +35,11 @@ const SideBar = () => {
       name: "Facilities",
       icon: <GiSoccerField />,
     },
+    {
+      path: "/courts",
+      name: "Courts",
+      icon: <GiSoccerField />,
+    },
   ];
 
   const showAnimation = {
