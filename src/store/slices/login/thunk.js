@@ -3,10 +3,10 @@ import { useInsertData } from "../../../hooks/useInsertData";
 import { toast } from "react-toastify";
 
 export const login = createAsyncThunk(
-  "/auth/login",
+  "/OwnerAuth/OwnerLogin",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await useInsertData(`/auth/login`, data);
+      const response = await useInsertData(`/OwnerAuth/OwnerLogin`, data);
 
       console.log("response");
       console.log(response);
