@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { fetchCourts } from "../store/slices/courts/thunk";
 import { FaEdit } from "react-icons/fa";
-import { Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import styles from "./Courts.module.css";
 
 const Courts = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { courts, loading } = useSelector((state) => state.courtsSlice);
+  const navigate = useNavigate();
+  const { courts } = useSelector((state) => state.courtsSlice);
 
   useEffect(() => {
     dispatch(fetchCourts());
@@ -19,7 +18,7 @@ const Courts = () => {
   const columns = [
     {
       name: "Court Name",
-      selector: (row) => row.name,
+      selector: (row) => row?.name,
       sortable: true,
       center: true,
     },
@@ -37,13 +36,13 @@ const Courts = () => {
     },
     {
       name: "Capacity",
-      selector: (row) => row.capacity,
+      selector: (row) => row?.capacity,
       sortable: true,
       center: true,
     },
     {
       name: "Price Per Hour",
-      selector: (row) => row.pricePerHour,
+      selector: (row) => `$${row?.pricePerHour}`,
       sortable: true,
       center: true,
     },
@@ -62,6 +61,40 @@ const Courts = () => {
     },
   ];
 
+  const customStyles = {
+    rows: {
+      style: {
+        backgroundColor: "#f7f7f7",
+        color: "#797981",
+        fontSize: "15px",
+        minHeight: "72px",
+      },
+    },
+    headCells: {
+      style: {
+        backgroundColor: "#f7f7f7",
+        color: "#797981",
+        fontWeight: "bold",
+        fontSize: "15px",
+        paddingLeft: "16px",
+        paddingRight: "16px",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "16px",
+        paddingRight: "16px",
+      },
+    },
+    pagination: {
+      style: {
+        backgroundColor: "#f7f7f7",
+        color: "#797981",
+        fontSize: "15px",
+      },
+    },
+  };
+
   return (
     <div className={styles["courts-container"]}>
       <div className={styles["add-button-container"]}>
@@ -75,36 +108,13 @@ const Courts = () => {
       </div>
 
       <div className={styles["courts-content"]}>
-        {loading ? (
-          <div className="text-center my-4">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
-        ) : (
-          <DataTable
-            noHeader
-            defaultSortAsc={false}
-            pagination
-            highlightOnHover
-            columns={columns}
-            data={courts || []}
-            paginationRowsPerPageOptions={[5, 10, 15]}
-            noDataComponent={
-              <div
-                style={{
-                  color: "black",
-                  fontSize: "16px",
-                  textAlign: "center",
-                  margin: "20px 0",
-                  fontWeight: "bold",
-                }}
-              >
-                There are no records to display
-              </div>
-            }
-          />
-        )}
+        <DataTable
+          columns={columns}
+          data={courts}
+          pagination
+          customStyles={customStyles}
+          highlightOnHover
+        />
       </div>
     </div>
   );
