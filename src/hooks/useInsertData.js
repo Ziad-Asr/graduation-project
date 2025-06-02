@@ -3,7 +3,7 @@ import baseURL from "../Api/baseURL";
 const useInsertData = async (url, params) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
     },
   };
   const res = await baseURL.post(url, params, config);
@@ -14,7 +14,7 @@ const useInsertDataWithImage = async (url, params) => {
   const config = {
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
     },
   };
   const res = await baseURL.post(url, params, config);

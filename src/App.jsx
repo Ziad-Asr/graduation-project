@@ -9,6 +9,11 @@ import Login from "./pages/login/Login";
 import "./app.css";
 import Register from "./pages/register/Register";
 import Courts from "./pages/Courts";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AddFacility from "./pages/AddFacility";
+import EditFacility from "./pages/EditFacility";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const location = useLocation();
@@ -23,17 +28,94 @@ function App() {
         {!isAuthPage && <Topbar />}
         <div className="web-routes">
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/facilities" element={<Facilities />} />
+            <Route
+              path="/login"
+              element={
+                <ProtectedRoute>
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <ProtectedRoute>
+                  <Register />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Navigate to="/playgrounds-owners" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute>
+                  <Users />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/facilities"
+              element={
+                <ProtectedRoute>
+                  <Facilities />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/facilities/add"
+              element={
+                <ProtectedRoute>
+                  <AddFacility />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/facilities/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <EditFacility />
+                </ProtectedRoute>
+              }
+            />
             {/* <Route path="/employees" element={<Employees />} /> */}
-            <Route path="/playgrounds-owners" element={<PlaygroundsOwners />} />
-            <Route path="/courts" element={<Courts />} />
+            <Route
+              path="/playgrounds-owners"
+              element={
+                <ProtectedRoute>
+                  <PlaygroundsOwners />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/courts"
+              element={
+                <ProtectedRoute>
+                  <Courts />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

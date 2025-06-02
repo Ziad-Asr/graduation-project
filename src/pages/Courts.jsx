@@ -2,10 +2,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
 import { fetchCourts } from "../store/slices/courts/thunk";
-import SecondTopbar from "../components/secondTopbar/SecondTopbar";
+import { FaEdit } from "react-icons/fa";
 import { Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import styles from "./Courts.module.css";
 
 const Courts = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { courts, loading } = useSelector((state) => state.courtsSlice);
 
@@ -44,12 +47,34 @@ const Courts = () => {
       sortable: true,
       center: true,
     },
+    {
+      name: "Edit",
+      selector: (row) => (
+        <FaEdit
+          className={styles.editIcon}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/courts/edit/${row.id}`);
+          }}
+        />
+      ),
+      center: true,
+    },
   ];
 
   return (
-    <>
-      <SecondTopbar />
-      <div className="container my-4">
+    <div className={styles["courts-container"]}>
+      <div className={styles["add-button-container"]}>
+        <h1>Courts</h1>
+        <button
+          className={styles["add-button"]}
+          onClick={() => navigate("/courts/add")}
+        >
+          Add New Court
+        </button>
+      </div>
+
+      <div className={styles["courts-content"]}>
         {loading ? (
           <div className="text-center my-4">
             <Spinner animation="border" role="status">
@@ -81,7 +106,7 @@ const Courts = () => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

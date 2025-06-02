@@ -4,6 +4,9 @@ import DataTable from "react-data-table-component";
 import { fetchPlaygroundOwners } from "../store/slices/playgroundOwners/thunk";
 
 const PlaygroundOwners = () => {
+  console.log("localStorage.getItem('userToken')");
+  console.log(localStorage.getItem("userToken"));
+
   const dispatch = useDispatch();
   const { owners, loading, error } = useSelector(
     (state) => state.playgroundOwnersSlice

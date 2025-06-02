@@ -8,7 +8,7 @@ export const fetchCourts = createAsyncThunk(
     try {
       const config = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       };
       const response = await baseURL.get("/Court/getAll", config);
