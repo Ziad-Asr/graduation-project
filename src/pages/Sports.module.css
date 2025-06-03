@@ -1,0 +1,51 @@
+.sports-container {
+  padding: 20px;
+  background-color: #f7f7f7;
+  min-height: 100vh;
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-button-container h1 {
+  color: #797981;
+  font-size: 24px;
+  margin: 0;
+}
+
+.add-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+.sports-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.editIcon {
+  color: #797981;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.editIcon:hover {
+  color: #4caf50;
+}

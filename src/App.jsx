@@ -16,6 +16,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddCourt from "./pages/AddCourt";
 import EditCourt from "./pages/EditCourt";
+import Sports from "./pages/Sports";
+import AddSport from "./pages/AddSport";
+import EditSport from "./pages/EditSport";
 
 function App() {
   const location = useLocation();
@@ -116,6 +119,30 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EditCourt />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sports"
+              element={
+                <ProtectedRoute>
+                  <Sports />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sports/add"
+              element={
+                <ProtectedRoute>
+                  <AddSport />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sports/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <EditSport />
                 </ProtectedRoute>
               }
             />

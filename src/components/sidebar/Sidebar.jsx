@@ -114,8 +114,7 @@ const SideBar = () => {
               <NavLink
                 to={route.path}
                 key={index}
-                className="link"
-                activeClassName="active"
+                className={({ isActive }) => `link ${isActive ? "active" : ""}`}
               >
                 <div className="icon">{route.icon}</div>
                 <AnimatePresence>
