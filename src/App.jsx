@@ -19,6 +19,7 @@ import EditSport from "./pages/SportsModule/EditSport/EditSport";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./app.css";
+import Booking from "./pages/BookingModule/Booking/Booking";
 
 function App() {
   const location = useLocation();
@@ -143,6 +144,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EditSport />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/booking"
+              element={
+                <ProtectedRoute>
+                  <Booking />
                 </ProtectedRoute>
               }
             />

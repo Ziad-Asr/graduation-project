@@ -5,6 +5,7 @@ import playgroundOwnersReducer from "./slices/playgroundOwners/playgroundOwners-
 import facilitiesReducer from "./slices/facilities/facilitiesSlice";
 import courtsReducer from "./slices/courts/courtsSlice";
 import sportsReducer from "./slices/sports/sportsSlice";
+import bookingsReducer from "./slices/bookings/bookingsSlice";
 import { thunk } from "redux-thunk";
 
 const store = configureStore({
@@ -15,6 +16,7 @@ const store = configureStore({
     facilitiesSlice: facilitiesReducer,
     courtsSlice: courtsReducer,
     sportsSlice: sportsReducer,
+    bookingsSlice: bookingsReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

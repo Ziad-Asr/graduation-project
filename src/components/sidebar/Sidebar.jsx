@@ -44,6 +44,11 @@ const SideBar = () => {
       name: "Sports",
       icon: <GiSoccerField />,
     },
+    {
+      path: "/booking",
+      name: "Booking",
+      icon: <GiSoccerField />,
+    },
   ];
 
   const showAnimation = {
