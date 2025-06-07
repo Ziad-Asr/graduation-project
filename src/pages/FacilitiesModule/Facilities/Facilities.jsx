@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import { fetchFacilities } from "../store/slices/facilities/thunk";
-import Map from "../components/map/Map";
+import { fetchFacilities } from "../../../store/slices/facilities/thunk";
+import Map from "../../../components/map/Map";
 import { FaEdit } from "react-icons/fa";
 import styles from "./Facilities.module.css";
 
@@ -158,6 +158,9 @@ const Facilities = () => {
           pagination
           customStyles={customStyles}
           highlightOnHover
+          paginationPerPage={6}
+          paginationRowsPerPageOptions={[6, 10, 15]}
+          noDataComponent={<div className="no-data">No facilities found</div>}
         />
       </div>
     </div>

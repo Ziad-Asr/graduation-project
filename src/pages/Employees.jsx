@@ -62,7 +62,8 @@ const Employees = () => {
         highlightOnHover
         columns={columns}
         data={employees || []}
-        paginationRowsPerPageOptions={[5, 10, 15]}
+        paginationPerPage={6}
+        paginationRowsPerPageOptions={[6, 10, 15]}
         noDataComponent={<div className="no-data">No employees found</div>}
       />
     </div>

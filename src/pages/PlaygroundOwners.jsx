@@ -112,8 +112,8 @@ const PlaygroundOwners = () => {
           columns={columns}
           data={owners || []}
           customStyles={customStyles}
-          paginationRowsPerPageOptions={[5, 10, 15, 20, 25]}
-          paginationPerPage={10}
+          paginationPerPage={6}
+          paginationRowsPerPageOptions={[6, 10, 15]}
           noDataComponent={
             <div
               style={{

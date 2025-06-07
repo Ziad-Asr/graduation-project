@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { toast } from "react-toastify";
-import { fetchPlaygroundOwners } from "../store/slices/playgroundOwners/thunk";
+import { fetchPlaygroundOwners } from "../../../store/slices/playgroundOwners/thunk";
 import {
   fetchFacilityById,
   updateFacility,
-} from "../store/slices/facilities/thunk";
-import ImagePreview from "../components/ImagePreview/ImagePreview";
-import styles from "./AddFacility.module.css";
+} from "../../../store/slices/facilities/thunk";
+import ImagePreview from "../../../components/ImagePreview/ImagePreview";
+import styles from "./EditFacility.module.css";
 
 const EditFacility = () => {
   const dispatch = useDispatch();
@@ -230,6 +230,7 @@ const EditFacility = () => {
     }
 
     const formDataToSend = new FormData();
+    formDataToSend.append("id", id);
     formDataToSend.append("name", formData.name);
     formDataToSend.append("openingTime", formData.openingTime);
     formDataToSend.append("closingTime", formData.closingTime);

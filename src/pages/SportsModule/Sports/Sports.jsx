@@ -2,47 +2,23 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import { fetchCourts } from "../store/slices/courts/thunk";
 import { FaEdit } from "react-icons/fa";
-import styles from "./Courts.module.css";
+import styles from "./Sports.module.css";
+import { fetchSports } from "../../../store/slices/sports/thunk";
 
-const Courts = () => {
+const Sports = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { courts } = useSelector((state) => state.courtsSlice);
+  const { sports } = useSelector((state) => state.sportsSlice);
 
   useEffect(() => {
-    dispatch(fetchCourts());
+    dispatch(fetchSports());
   }, [dispatch]);
 
   const columns = [
     {
-      name: "Court Name",
+      name: "Sport Name",
       selector: (row) => row?.name,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Facility ID",
-      selector: (row) => row.facilityId,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Sport ID",
-      selector: (row) => row.sportId,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Capacity",
-      selector: (row) => row?.capacity,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Price Per Hour",
-      selector: (row) => `$${row?.pricePerHour}`,
       sortable: true,
       center: true,
     },
@@ -53,7 +29,7 @@ const Courts = () => {
           className={styles.editIcon}
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/courts/edit/${row.id}`);
+            navigate(`/sports/edit/${row.id}`);
           }}
         />
       ),
@@ -96,28 +72,31 @@ const Courts = () => {
   };
 
   return (
-    <div className={styles["courts-container"]}>
+    <div className={styles["sports-container"]}>
       <div className={styles["add-button-container"]}>
-        <h1>Courts</h1>
+        <h1>Sports</h1>
         <button
           className={styles["add-button"]}
-          onClick={() => navigate("/courts/add")}
+          onClick={() => navigate("/sports/add")}
         >
-          Add New Court
+          Add New Sport
         </button>
       </div>
 
-      <div className={styles["courts-content"]}>
+      <div className={styles["sports-content"]}>
         <DataTable
           columns={columns}
-          data={courts}
+          data={sports}
           pagination
           customStyles={customStyles}
           highlightOnHover
+          paginationPerPage={6}
+          paginationRowsPerPageOptions={[6, 10, 15]}
+          noDataComponent={<div className="no-data">No sports found</div>}
         />
       </div>
     </div>
   );
 };
 
-export default Courts;
+export default Sports;

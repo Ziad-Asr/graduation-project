@@ -73,7 +73,7 @@ export const updateFacility = createAsyncThunk(
   "facilities/updateFacility",
   async ({ id, formData }, { rejectWithValue }) => {
     try {
-      const response = await baseURL.put(`/Facilities/${id}`, formData, {
+      const response = await baseURL.put(`/Facilities`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

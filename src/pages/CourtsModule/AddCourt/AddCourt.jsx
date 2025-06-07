@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { fetchFacilities } from "../store/slices/facilities/thunk";
-import { fetchCourtById, updateCourt } from "../store/slices/courts/thunk";
 import styles from "./AddCourt.module.css";
+import { fetchFacilities } from "../../../store/slices/facilities/thunk";
+import { fetchSports } from "../../../store/slices/sports/thunk";
+import { addCourt } from "../../../store/slices/courts/thunk";
 
-const EditCourt = () => {
+const AddCourt = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
   const { facilities } = useSelector((state) => state.facilitiesSlice);
-  const { currentCourt, loading } = useSelector((state) => state.courtsSlice);
+  const { sports } = useSelector((state) => state.sportsSlice);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -25,20 +25,8 @@ const EditCourt = () => {
 
   useEffect(() => {
     dispatch(fetchFacilities());
-    dispatch(fetchCourtById(id));
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    if (currentCourt) {
-      setFormData({
-        name: currentCourt.name,
-        facilityId: currentCourt.facilityId,
-        sportId: currentCourt.sportId,
-        capacity: currentCourt.capacity,
-        pricePerHour: currentCourt.pricePerHour,
-      });
-    }
-  }, [currentCourt]);
+    dispatch(fetchSports());
+  }, [dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -105,7 +93,7 @@ const EditCourt = () => {
       formData.name.length < 2 ||
       formData.name.length > 20
     ) {
-      newErrors.name = "Name must be between 2 and 50 characters";
+      newErrors.name = "Name must be between 2 and 20 characters";
     }
 
     if (!formData.facilityId) {
@@ -125,7 +113,7 @@ const EditCourt = () => {
       formData.pricePerHour < 1 ||
       formData.pricePerHour > 500
     ) {
-      newErrors.pricePerHour = "Price must be between 1 and 500";
+      newErrors.pricePerHour = "Price must be between 2 and 500";
     }
 
     setErrors(newErrors);
@@ -141,21 +129,15 @@ const EditCourt = () => {
     }
 
     try {
-      const response = await dispatch(
-        updateCourt({ ...formData, id: parseInt(id) })
-      ).unwrap();
+      const response = await dispatch(addCourt(formData)).unwrap();
       if (response) {
-        toast.success("Court updated successfully!");
+        toast.success("Court added successfully!");
         navigate("/courts");
       }
     } catch (error) {
-      toast.error(error || "Failed to update court");
+      toast.error(error || "Failed to add court");
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className={styles.container}>
@@ -207,9 +189,11 @@ const EditCourt = () => {
               className={errors.sportId ? styles.error : ""}
             >
               <option value="">Select Sport</option>
-              <option value="1">Football</option>
-              <option value="2">Basketball</option>
-              <option value="3">Tennis</option>
+              {sports.map((sport) => (
+                <option key={sport.id} value={sport.id}>
+                  {sport.name}
+                </option>
+              ))}
             </select>
             {errors.sportId && (
               <span className={styles.errorText}>{errors.sportId}</span>
@@ -250,7 +234,7 @@ const EditCourt = () => {
           </div>
 
           <button type="submit" className={styles.submitButton}>
-            Update Court
+            Add Court
           </button>
         </form>
       </div>
@@ -258,4 +242,4 @@ const EditCourt = () => {
   );
 };
 
-export default EditCourt;
+export default AddCourt;

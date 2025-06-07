@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { toast } from "react-toastify";
-import { fetchPlaygroundOwners } from "../store/slices/playgroundOwners/thunk";
-import { addFacility } from "../store/slices/facilities/thunk";
-import ImagePreview from "../components/ImagePreview/ImagePreview";
+import { fetchPlaygroundOwners } from "../../../store/slices/playgroundOwners/thunk";
+import { addFacility } from "../../../store/slices/facilities/thunk";
+import ImagePreview from "../../../components/ImagePreview/ImagePreview";
 import styles from "./AddFacility.module.css";
 
 const AddFacility = () => {

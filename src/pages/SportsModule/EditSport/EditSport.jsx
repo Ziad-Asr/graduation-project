@@ -1,15 +1,26 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addSport } from "../store/slices/sports/thunk";
-import styles from "./AddSport.module.css";
+import styles from "./EditSport.module.css";
+import { updateSport } from "../../../store/slices/sports/thunk";
 
-const AddSport = () => {
+const EditSport = () => {
   const [sportName, setSportName] = useState("");
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { sports } = useSelector((state) => state.sportsSlice);
+
+  useEffect(() => {
+    const sport = sports.find((s) => s.id === parseInt(id));
+    if (sport) {
+      setSportName(sport.name);
+    } else {
+      navigate("/sports");
+    }
+  }, [id, sports, navigate]);
 
   const validateField = (value) => {
     setErrors((prev) => {
@@ -47,20 +58,22 @@ const AddSport = () => {
     }
 
     try {
-      const response = await dispatch(addSport(sportName)).unwrap();
+      const response = await dispatch(
+        updateSport({ id: parseInt(id), name: sportName })
+      ).unwrap();
       if (response) {
-        toast.success("Sport added successfully!");
+        toast.success("Sport updated successfully!");
         navigate("/sports");
       }
     } catch (error) {
-      toast.error(error || "Failed to add sport");
+      toast.error(error || "Failed to update sport");
     }
   };
 
   return (
-    <div className={styles["add-sport-container"]}>
-      <div className={styles["add-sport-content"]}>
-        <h1>Add New Sport</h1>
+    <div className={styles["edit-sport-container"]}>
+      <div className={styles["edit-sport-content"]}>
+        <h1>Edit Sport</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles["form-group"]}>
             <label htmlFor="sportName">Sport Name</label>
@@ -80,7 +93,7 @@ const AddSport = () => {
           </div>
           <div className={styles["button-group"]}>
             <button type="submit" className={styles["submit-button"]}>
-              Add Sport
+              Update Sport
             </button>
             <button
               type="button"
@@ -96,4 +109,4 @@ const AddSport = () => {
   );
 };
 
-export default AddSport;
+export default EditSport;
