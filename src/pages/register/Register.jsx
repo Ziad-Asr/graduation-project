@@ -7,10 +7,12 @@ import loginImages from "../../assets/login_image.png";
 import { BiSolidHide, BiShow } from "react-icons/bi";
 import styles from "./Register.module.css";
 import { register } from "../../store/slices/login/thunk";
+import SuccessPopup from "../../components/SuccessPopup/SuccessPopup";
 
 const Register = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -94,6 +96,10 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleClosePopup = () => {
+    setShowSuccessPopup(false);
+  };
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
@@ -103,11 +109,7 @@ const Register = () => {
 
     try {
       await dispatch(register(formData)).unwrap();
-      toast.success(
-        "We collected your data successfully, and we'll contact you in 24 hours.",
-        { autoClose: 5000 }
-      );
-      navigate("/login");
+      setShowSuccessPopup(true);
     } catch (error) {
       toast.error(error);
       console.error("Registration failed:", error);
@@ -115,169 +117,178 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.register}>
-      <div className={styles.overlay}></div>
-      <div className={styles.left_div}>
-        <img
-          src={loginImages}
-          alt="register"
-          className={styles.register_images}
-        />
-        <div className={styles.left_text}>
-          One platform for managing <br />
-          <span className={styles.left_bold_text}>
-            all manufacturing aspects
-          </span>
+    <>
+      <div className={styles.register}>
+        <div className={styles.overlay}></div>
+        <div className={styles.left_div}>
+          <img
+            src={loginImages}
+            alt="register"
+            className={styles.register_images}
+          />
+          <div className={styles.left_text}>
+            One platform for managing <br />
+            <span className={styles.left_bold_text}>
+              all manufacturing aspects
+            </span>
+          </div>
         </div>
-      </div>
-      <div className={styles.right_div}>
-        <div className={styles.right_logo}>
-          <img src={logo} alt="logo" className={styles.logo_image} />
-          <div className={styles.logo_text}>Perfect</div>
-        </div>
+        <div className={styles.right_div}>
+          <div className={styles.right_logo}>
+            <img src={logo} alt="logo" className={styles.logo_image} />
+            <div className={styles.logo_text}>Perfect</div>
+          </div>
 
-        <h3 className={styles.login_title}>Create an Account</h3>
+          <h3 className={styles.login_title}>Create an Account</h3>
 
-        <div className={styles.button_wrapper}>
-          <button
-            className={styles.toggle_button}
-            onClick={() => navigate("/login")}
-          >
-            Login
-          </button>
-          <button className={`${styles.toggle_button} ${styles.active}`}>
-            Register
-          </button>
-        </div>
-
-        <div className={styles.form_wrapper}>
-          <form onSubmit={onSubmitHandler}>
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              className={`${styles.input} ${
-                errors.firstName ? styles.input_error : ""
-              }`}
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-            {errors.firstName && (
-              <span className={styles.error_text}>{errors.firstName}</span>
-            )}
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              className={`${styles.input} ${
-                errors.lastName ? styles.input_error : ""
-              }`}
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-            {errors.lastName && (
-              <span className={styles.error_text}>{errors.lastName}</span>
-            )}
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              className={`${styles.input} ${
-                errors.email ? styles.input_error : ""
-              }`}
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            {errors.email && (
-              <span className={styles.error_text}>{errors.email}</span>
-            )}
-
-            <input
-              type="text"
-              name="phoneNumber"
-              placeholder="Phone Number"
-              className={`${styles.input} ${
-                errors.phoneNumber ? styles.input_error : ""
-              }`}
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              required
-            />
-            {errors.phoneNumber && (
-              <span className={styles.error_text}>{errors.phoneNumber}</span>
-            )}
-
-            <div className={styles.password_wrapper}>
-              <input
-                type={passwordVisible ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                className={`${styles.input} ${
-                  errors.password ? styles.input_error : ""
-                }`}
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <span
-                onClick={() => togglePasswordVisibility("password")}
-                className={styles.password_toggle_icon}
-              >
-                {passwordVisible ? (
-                  <BiShow size={"30px"} />
-                ) : (
-                  <BiSolidHide size={"30px"} />
-                )}
-              </span>
-            </div>
-            {errors.password && (
-              <span className={styles.error_text}>{errors.password}</span>
-            )}
-
-            <div className={styles.password_wrapper}>
-              <input
-                type={confirmPasswordVisible ? "text" : "password"}
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                className={`${styles.input} ${
-                  errors.confirmPassword ? styles.input_error : ""
-                }`}
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-              <span
-                onClick={() => togglePasswordVisibility("confirmPassword")}
-                className={styles.password_toggle_icon}
-              >
-                {confirmPasswordVisible ? (
-                  <BiShow size={"30px"} />
-                ) : (
-                  <BiSolidHide size={"30px"} />
-                )}
-              </span>
-            </div>
-            {errors.confirmPassword && (
-              <span className={styles.error_text}>
-                {errors.confirmPassword}
-              </span>
-            )}
-
+          <div className={styles.button_wrapper}>
             <button
-              type="submit"
-              className={styles.submit}
-              disabled={registerLoading}
+              className={styles.toggle_button}
+              onClick={() => navigate("/login")}
             >
-              {registerLoading ? "Registering..." : "Register"}
+              Login
             </button>
-          </form>
+            <button className={`${styles.toggle_button} ${styles.active}`}>
+              Register
+            </button>
+          </div>
+
+          <div className={styles.form_wrapper}>
+            <form onSubmit={onSubmitHandler}>
+              <input
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                className={`${styles.input} ${
+                  errors.firstName ? styles.input_error : ""
+                }`}
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+              />
+              {errors.firstName && (
+                <span className={styles.error_text}>{errors.firstName}</span>
+              )}
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                className={`${styles.input} ${
+                  errors.lastName ? styles.input_error : ""
+                }`}
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+              />
+              {errors.lastName && (
+                <span className={styles.error_text}>{errors.lastName}</span>
+              )}
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                className={`${styles.input} ${
+                  errors.email ? styles.input_error : ""
+                }`}
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              {errors.email && (
+                <span className={styles.error_text}>{errors.email}</span>
+              )}
+
+              <input
+                type="text"
+                name="phoneNumber"
+                placeholder="Phone Number"
+                className={`${styles.input} ${
+                  errors.phoneNumber ? styles.input_error : ""
+                }`}
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+              {errors.phoneNumber && (
+                <span className={styles.error_text}>{errors.phoneNumber}</span>
+              )}
+
+              <div className={styles.password_wrapper}>
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  className={`${styles.input} ${
+                    errors.password ? styles.input_error : ""
+                  }`}
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <span
+                  onClick={() => togglePasswordVisibility("password")}
+                  className={styles.password_toggle_icon}
+                >
+                  {passwordVisible ? (
+                    <BiShow size={"30px"} />
+                  ) : (
+                    <BiSolidHide size={"30px"} />
+                  )}
+                </span>
+              </div>
+              {errors.password && (
+                <span className={styles.error_text}>{errors.password}</span>
+              )}
+
+              <div className={styles.password_wrapper}>
+                <input
+                  type={confirmPasswordVisible ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  className={`${styles.input} ${
+                    errors.confirmPassword ? styles.input_error : ""
+                  }`}
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+                <span
+                  onClick={() => togglePasswordVisibility("confirmPassword")}
+                  className={styles.password_toggle_icon}
+                >
+                  {confirmPasswordVisible ? (
+                    <BiShow size={"30px"} />
+                  ) : (
+                    <BiSolidHide size={"30px"} />
+                  )}
+                </span>
+              </div>
+              {errors.confirmPassword && (
+                <span className={styles.error_text}>
+                  {errors.confirmPassword}
+                </span>
+              )}
+
+              <button
+                type="submit"
+                className={styles.submit}
+                disabled={registerLoading}
+              >
+                {registerLoading ? "Registering..." : "Register"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+
+      {showSuccessPopup && (
+        <SuccessPopup
+          message="We collected your data successfully, and we'll contact you in 24 hours."
+          onClose={handleClosePopup}
+        />
+      )}
+    </>
   );
 };
 
