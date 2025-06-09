@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import loginImages from "../../assets/login_image.png";
 import { BiSolidHide, BiShow } from "react-icons/bi";
@@ -15,23 +16,14 @@ const Register = () => {
     lastName: "",
     email: "",
     password: "",
-    confirmedPassword: "",
+    confirmPassword: "",
     phoneNumber: "",
   });
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { registerLoading, registerError, userRegisterResponseInfo } =
-    useSelector((state) => state.loginSlice);
-
-  // Check if registration was successful and navigate
-  useEffect(() => {
-    if (userRegisterResponseInfo && userRegisterResponseInfo.token) {
-      // Registration successful, navigate to home page
-      navigate("/");
-    }
-  }, [userRegisterResponseInfo, navigate]);
+  const { registerLoading } = useSelector((state) => state.loginSlice);
 
   const togglePasswordVisibility = (field) => {
     if (field === "password") {
@@ -92,10 +84,10 @@ const Register = () => {
     }
 
     // Confirm password validation
-    if (!formData.confirmedPassword) {
-      newErrors.confirmedPassword = "Please confirm your password";
-    } else if (formData.password !== formData.confirmedPassword) {
-      newErrors.confirmedPassword = "Passwords do not match";
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(newErrors);
@@ -111,9 +103,13 @@ const Register = () => {
 
     try {
       await dispatch(register(formData)).unwrap();
-      // Navigation is handled by the useEffect hook
+      toast.success(
+        "We collected your data successfully, and we'll contact you in 24 hours.",
+        { autoClose: 5000 }
+      );
+      navigate("/login");
     } catch (error) {
-      // Error is already handled by the thunk
+      toast.error(error);
       console.error("Registration failed:", error);
     }
   };
@@ -156,40 +152,34 @@ const Register = () => {
 
         <div className={styles.form_wrapper}>
           <form onSubmit={onSubmitHandler}>
-            <div className={styles.name_fields}>
-              <div className={styles.name_field}>
-                <input
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  className={`${styles.input} ${
-                    errors.firstName ? styles.input_error : ""
-                  }`}
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                />
-                {errors.firstName && (
-                  <span className={styles.error_text}>{errors.firstName}</span>
-                )}
-              </div>
-              <div className={styles.name_field}>
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  className={`${styles.input} ${
-                    errors.lastName ? styles.input_error : ""
-                  }`}
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                />
-                {errors.lastName && (
-                  <span className={styles.error_text}>{errors.lastName}</span>
-                )}
-              </div>
-            </div>
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              className={`${styles.input} ${
+                errors.firstName ? styles.input_error : ""
+              }`}
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+            />
+            {errors.firstName && (
+              <span className={styles.error_text}>{errors.firstName}</span>
+            )}
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              className={`${styles.input} ${
+                errors.lastName ? styles.input_error : ""
+              }`}
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+            />
+            {errors.lastName && (
+              <span className={styles.error_text}>{errors.lastName}</span>
+            )}
 
             <input
               type="email"
@@ -251,12 +241,12 @@ const Register = () => {
             <div className={styles.password_wrapper}>
               <input
                 type={confirmPasswordVisible ? "text" : "password"}
-                name="confirmedPassword"
+                name="confirmPassword"
                 placeholder="Confirm Password"
                 className={`${styles.input} ${
-                  errors.confirmedPassword ? styles.input_error : ""
+                  errors.confirmPassword ? styles.input_error : ""
                 }`}
-                value={formData.confirmedPassword}
+                value={formData.confirmPassword}
                 onChange={handleChange}
                 required
               />
@@ -271,9 +261,9 @@ const Register = () => {
                 )}
               </span>
             </div>
-            {errors.confirmedPassword && (
+            {errors.confirmPassword && (
               <span className={styles.error_text}>
-                {errors.confirmedPassword}
+                {errors.confirmPassword}
               </span>
             )}
 
@@ -284,10 +274,6 @@ const Register = () => {
             >
               {registerLoading ? "Registering..." : "Register"}
             </button>
-
-            {registerError && (
-              <div className={styles.error_message}>{registerError}</div>
-            )}
           </form>
         </div>
       </div>

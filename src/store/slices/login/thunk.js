@@ -58,7 +58,7 @@ export const login = createAsyncThunk(
 );
 
 export const register = createAsyncThunk(
-  "/auth/register",
+  "register",
   async (data, { rejectWithValue }) => {
     try {
       const requiredFields = [
@@ -66,7 +66,7 @@ export const register = createAsyncThunk(
         "lastName",
         "email",
         "password",
-        "confirmedPassword",
+        "confirmPassword",
         "phoneNumber",
       ];
 
@@ -75,28 +75,38 @@ export const register = createAsyncThunk(
         throw new Error(`Missing required fields: ${missingFields.join(", ")}`);
       }
 
-      const response = await useInsertData(`/Auth/register`, data);
+      const response = await useInsertData("/OwnerAuth/OwnerRegister", data);
 
-      if (response && response.user && response.token) {
-        return response;
-      } else {
-        throw new Error("Invalid response from server.");
-      }
+      // If we get here, the request was successful (status 200)
+      return response.data;
     } catch (error) {
-      let errorMessage = "An error occurred during registration.";
-
+      // Handle network errors
       if (error.message.includes("Network Error")) {
-        errorMessage = "No internet connection. Please check your connection.";
-      } else if (error.response) {
-        const { statusCode, messege } = error.response;
-        if (statusCode === 400 && messege) {
-          errorMessage = messege;
-        }
-      } else if (error.message.includes("Missing required fields")) {
-        errorMessage = error.message;
+        return rejectWithValue(
+          "No internet connection. Please check your connection."
+        );
       }
 
-      return rejectWithValue(errorMessage);
+      // Handle API errors
+      if (error.response) {
+        const { statusCode, messege, errors } = error.response.data;
+
+        if (statusCode === 400) {
+          if (errors && Array.isArray(errors) && errors.length > 0) {
+            return rejectWithValue(errors[0]); // Return first error from array
+          } else if (messege) {
+            return rejectWithValue(messege);
+          }
+        }
+      }
+
+      // Handle validation errors
+      if (error.message.includes("Missing required fields")) {
+        return rejectWithValue(error.message);
+      }
+
+      // Handle any other errors
+      return rejectWithValue("An error occurred during registration.");
     }
   }
 );
