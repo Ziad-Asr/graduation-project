@@ -8,9 +8,6 @@ export const login = createAsyncThunk(
       const endpoint = isAdmin ? "/OwnerAuth/OwnerLogin" : "/AdminAuth/login";
       const response = await useInsertData(endpoint, { email, password });
 
-      console.log("response");
-      console.log(response);
-
       if (!response || !response.data || !response.data.token) {
         throw new Error("Invalid response from server.");
       }
@@ -36,23 +33,28 @@ export const login = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      let errorMessage = "An error occurred while processing your request.";
-
+      // Handle network errors
       if (error.message.includes("Network Error")) {
-        errorMessage = "No internet connection. Please check your connection.";
-      } else if (error.response) {
+        return rejectWithValue(
+          "No internet connection. Please check your connection."
+        );
+      }
+
+      // Handle API errors
+      if (error.response) {
         const { statusCode, messege, errors } = error.response.data;
 
-        if (statusCode === 400) {
-          if (messege) {
-            errorMessage = messege;
-          } else if (errors && Array.isArray(errors)) {
-            errorMessage = errors.join(", ");
+        if (statusCode === 400 || statusCode === 401) {
+          if (errors && Array.isArray(errors) && errors.length > 0) {
+            return rejectWithValue(errors[0]);
+          } else if (messege) {
+            return rejectWithValue(messege);
           }
         }
       }
 
-      return rejectWithValue(errorMessage);
+      // Handle any other errors
+      return rejectWithValue("An error occurred during login.");
     }
   }
 );

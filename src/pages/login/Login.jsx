@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { userLoginResponseInfo, loading, error } = useSelector(
+  const { userLoginResponseInfo, loading } = useSelector(
     (state) => state.login || {}
   );
 
@@ -39,21 +39,18 @@ const Login = () => {
     const isAdmin = checkboxLabel === "app admin";
 
     try {
-      const result = await dispatch(login({ email, password, isAdmin }));
-
-      if (login.fulfilled.match(result)) {
-        toast.success("Logged in successfully!");
-        if (result.payload.role === "Admin") {
-          navigate("/sports");
-        } else {
-          navigate("/sports");
-        }
+      const result = await dispatch(
+        login({ email, password, isAdmin })
+      ).unwrap();
+      toast.success("Logged in successfully!");
+      if (result.role === "Admin") {
+        navigate("/sports");
       } else {
-        toast.error(result.payload || "Login failed!");
+        navigate("/sports");
       }
     } catch (error) {
+      toast.error(error);
       console.error("Login error: ", error);
-      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -129,8 +126,6 @@ const Login = () => {
                 <span onClick={toggleCheckboxLabel}>{checkboxLabel}</span>
               </label>
             </div>
-
-            {error && <p className={styles.error_message}>{error}</p>}
 
             <button type="submit" className={styles.submit} disabled={loading}>
               {loading ? "Logging in..." : "Login"}
