@@ -44,9 +44,9 @@ const Login = () => {
       ).unwrap();
       toast.success("Logged in successfully!");
       if (result.role === "Admin") {
-        navigate("/sports");
+        navigate("/facilities");
       } else {
-        navigate("/sports");
+        navigate("/facilities");
       }
     } catch (error) {
       toast.error(error);

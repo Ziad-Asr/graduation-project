@@ -95,12 +95,6 @@ const PlaygroundOwners = () => {
     <div className={styles["owners-container"]}>
       <div className={styles["add-button-container"]}>
         <h1>Playground Owners</h1>
-        <button
-          className={styles["add-button"]}
-          onClick={() => navigate("/playgrounds-owners/add")}
-        >
-          Add New Owner
-        </button>
       </div>
 
       <div className={styles["owners-content"]}>

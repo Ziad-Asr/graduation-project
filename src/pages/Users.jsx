@@ -93,12 +93,6 @@ const Users = () => {
     <div className={styles["users-container"]}>
       <div className={styles["add-button-container"]}>
         <h1>Users</h1>
-        <button
-          className={styles["add-button"]}
-          onClick={() => navigate("/users/add")}
-        >
-          Add New User
-        </button>
       </div>
 
       <div className={styles["users-content"]}>
