@@ -24,11 +24,6 @@ const SideBar = () => {
       name: "Users",
       icon: <FaUsers />,
     },
-    // {
-    //   path: "/employees",
-    //   name: "Employees",
-    //   icon: <GrUserWorker />,
-    // },
     {
       path: "/facilities",
       name: "Facilities",
@@ -73,7 +68,6 @@ const SideBar = () => {
       <motion.div
         animate={{
           width: isOpen ? "230px" : "45px",
-
           transition: {
             duration: 0.5,
             type: "spring",

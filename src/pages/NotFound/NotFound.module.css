@@ -1,0 +1,87 @@
+.notFound {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.content {
+  text-align: center;
+  max-width: 600px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 120px;
+  font-weight: 700;
+  color: #dc3545;
+  margin: 0;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 32px;
+  color: #343a40;
+  margin: 20px 0;
+}
+
+.message {
+  font-size: 18px;
+  color: #6c757d;
+  margin-bottom: 30px;
+}
+
+.backButton,
+.homeButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 10px;
+}
+
+.backButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.homeButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.backButton:hover {
+  background-color: #5a6268;
+}
+
+.homeButton:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 80px;
+  }
+
+  .subtitle {
+    font-size: 24px;
+  }
+
+  .message {
+    font-size: 16px;
+  }
+
+  .backButton,
+  .homeButton {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin: 5px;
+  }
+}

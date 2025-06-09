@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useInsertData } from "../../../hooks/useInsertData";
-import { toast } from "react-toastify";
 
 export const login = createAsyncThunk(
-  "/OwnerAuth/OwnerLogin",
-  async (data, { rejectWithValue }) => {
+  "login",
+  async ({ email, password, isAdmin }, { rejectWithValue }) => {
     try {
-      const response = await useInsertData(`/OwnerAuth/OwnerLogin`, data);
+      const endpoint = isAdmin ? "/OwnerAuth/OwnerLogin" : "/AdminAuth/login";
+      const response = await useInsertData(endpoint, { email, password });
 
       console.log("response");
       console.log(response);
@@ -15,22 +15,25 @@ export const login = createAsyncThunk(
         throw new Error("Invalid response from server.");
       }
 
-      const { message, token } = response.data;
+      const {
+        token,
+        name,
+        email: userEmail,
+        role,
+        phoneNumber,
+      } = response.data;
 
       localStorage.setItem("userToken", token);
       localStorage.setItem(
         "userData",
         JSON.stringify({
-          name: response.data.name ? response.data.name : null,
-          email: response.data.email ? response.data.email : null,
-          phoneNumber: response.data.phoneNumber
-            ? response.data.phoneNumber
-            : null,
-          role: response.data.role ? response.data.role : null,
+          name: name || null,
+          email: userEmail || null,
+          phoneNumber: phoneNumber || null,
+          role: role || null,
         })
       );
 
-      toast.success(message);
       return response.data;
     } catch (error) {
       let errorMessage = "An error occurred while processing your request.";
@@ -38,13 +41,17 @@ export const login = createAsyncThunk(
       if (error.message.includes("Network Error")) {
         errorMessage = "No internet connection. Please check your connection.";
       } else if (error.response) {
-        const { statusCode, messege } = error.response.data;
-        if (statusCode === 400 && messege) {
-          errorMessage = messege;
+        const { statusCode, messege, errors } = error.response.data;
+
+        if (statusCode === 400) {
+          if (messege) {
+            errorMessage = messege;
+          } else if (errors && Array.isArray(errors)) {
+            errorMessage = errors.join(", ");
+          }
         }
       }
 
-      toast.error(errorMessage);
       return rejectWithValue(errorMessage);
     }
   }
@@ -71,10 +78,6 @@ export const register = createAsyncThunk(
       const response = await useInsertData(`/Auth/register`, data);
 
       if (response && response.user && response.token) {
-        const { message } = response;
-
-        toast.success(message || "Registration successful!");
-
         return response;
       } else {
         throw new Error("Invalid response from server.");
@@ -93,7 +96,6 @@ export const register = createAsyncThunk(
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
       return rejectWithValue(errorMessage);
     }
   }

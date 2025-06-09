@@ -36,13 +36,18 @@ const Login = () => {
     const form = event.target;
     const email = form["email"].value;
     const password = form["password"].value;
+    const isAdmin = checkboxLabel === "app admin";
 
     try {
-      const result = await dispatch(login({ email, password }));
+      const result = await dispatch(login({ email, password, isAdmin }));
 
       if (login.fulfilled.match(result)) {
         toast.success("Logged in successfully!");
-        navigate("/playgrounds-owners");
+        if (result.payload.role === "Admin") {
+          navigate("/sports");
+        } else {
+          navigate("/sports");
+        }
       } else {
         toast.error(result.payload || "Login failed!");
       }

@@ -15,6 +15,7 @@ import EditCourt from "./pages/CourtsModule/EditCourt/EditCourt";
 import Sports from "./pages/SportsModule/Sports/Sports";
 import AddSport from "./pages/SportsModule/AddSport/AddSport";
 import EditSport from "./pages/SportsModule/EditSport/EditSport";
+import NotFound from "./pages/NotFound/NotFound";
 // import Employees from "./pages/Employees";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,11 +28,24 @@ function App() {
     location.pathname.startsWith("/login") ||
     location.pathname.startsWith("/register");
 
+  const isNotFoundPage = ![
+    "/",
+    "/users",
+    "/facilities",
+    "/playgrounds-owners",
+    "/courts",
+    "/sports",
+    "/booking",
+  ].some(
+    (route) =>
+      location.pathname === route || location.pathname.startsWith(route + "/")
+  );
+
   return (
     <div className="app">
-      {!isAuthPage && <Sidebar />}
+      {!isAuthPage && !isNotFoundPage && <Sidebar />}
       <div className="page-content">
-        {!isAuthPage && <Topbar />}
+        {!isAuthPage && !isNotFoundPage && <Topbar />}
         <div className="web-routes">
           <Routes>
             <Route
@@ -155,6 +169,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

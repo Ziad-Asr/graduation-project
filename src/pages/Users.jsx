@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
+import { FaEdit } from "react-icons/fa";
+import styles from "./Users.module.css";
 import { fetchUsers } from "../store/slices/users/thunk";
 
 const Users = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { users, loading, error } = useSelector((state) => state.usersSlice);
 
   useEffect(() => {
@@ -36,6 +40,19 @@ const Users = () => {
       sortable: true,
       center: true,
     },
+    {
+      name: "Edit",
+      selector: (row) => (
+        <FaEdit
+          className={styles.editIcon}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/users/edit/${row.id}`);
+          }}
+        />
+      ),
+      center: true,
+    },
   ];
 
   const customStyles = {
@@ -44,7 +61,7 @@ const Users = () => {
         backgroundColor: "#f7f7f7",
         color: "#797981",
         fontSize: "15px",
-        minHeight: "50px",
+        minHeight: "72px",
       },
     },
     headCells: {
@@ -73,57 +90,37 @@ const Users = () => {
   };
 
   return (
-    <div className="container">
-      {loading ? (
-        <div
-          style={{
-            color: "black",
-            fontSize: "16px",
-            textAlign: "center",
-            margin: "20px 0",
-            fontWeight: "bold",
-          }}
+    <div className={styles["users-container"]}>
+      <div className={styles["add-button-container"]}>
+        <h1>Users</h1>
+        <button
+          className={styles["add-button"]}
+          onClick={() => navigate("/users/add")}
         >
-          Loading users...
-        </div>
-      ) : error ? (
-        <div
-          style={{
-            color: "red",
-            fontSize: "16px",
-            textAlign: "center",
-            margin: "20px 0",
-            fontWeight: "bold",
-          }}
-        >
-          {error}
-        </div>
-      ) : (
-        <DataTable
-          title="Users List"
-          defaultSortAsc={false}
-          pagination
-          highlightOnHover
-          columns={columns}
-          data={users || []}
-          customStyles={customStyles}
-          paginationPerPage={6}
-          paginationRowsPerPageOptions={[6, 10, 15]}
-          noDataComponent={
-            <div
-              style={{
-                color: "black",
-                fontSize: "16px",
-                textAlign: "center",
-                margin: "20px 0",
-                fontWeight: "bold",
-              }}
-            >
-              No users found
-            </div>
-          }
-        />
-      )}
+          Add New User
+        </button>
+      </div>
+
+      <div className={styles["users-content"]}>
+        {loading ? (
+          <div className={styles.loading}>Loading users...</div>
+        ) : error ? (
+          <div className={styles.error}>{error}</div>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={users || []}
+            pagination
+            paginationPerPage={6}
+            paginationRowsPerPageOptions={[6, 10, 15]}
+            customStyles={customStyles}
+            highlightOnHover
+            noDataComponent={
+              <div className={styles.noData}>No users found</div>
+            }
+          />
+        )}
+      </div>
     </div>
   );
 };

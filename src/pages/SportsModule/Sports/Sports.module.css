@@ -1,6 +1,5 @@
 .sports-container {
   padding: 20px;
-  background-color: #f7f7f7;
   min-height: 100vh;
 }
 
@@ -9,12 +8,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-}
-
-.add-button-container h1 {
-  color: #797981;
-  font-size: 24px;
-  margin: 0;
 }
 
 .add-button {

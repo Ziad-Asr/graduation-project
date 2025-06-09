@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
+import { FaEdit } from "react-icons/fa";
+import styles from "./PlaygroundOwners.module.css";
 import { fetchPlaygroundOwners } from "../store/slices/playgroundOwners/thunk";
 
 const PlaygroundOwners = () => {
-  console.log("localStorage.getItem('userToken')");
-  console.log(localStorage.getItem("userToken"));
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { owners, loading, error } = useSelector(
     (state) => state.playgroundOwnersSlice
   );
@@ -41,6 +42,19 @@ const PlaygroundOwners = () => {
       sortable: true,
       center: true,
     },
+    {
+      name: "Edit",
+      selector: (row) => (
+        <FaEdit
+          className={styles.editIcon}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/playgrounds-owners/edit/${row.id}`);
+          }}
+        />
+      ),
+      center: true,
+    },
   ];
 
   const customStyles = {
@@ -49,7 +63,7 @@ const PlaygroundOwners = () => {
         backgroundColor: "#f7f7f7",
         color: "#797981",
         fontSize: "15px",
-        minHeight: "50px",
+        minHeight: "72px",
       },
     },
     headCells: {
@@ -78,57 +92,37 @@ const PlaygroundOwners = () => {
   };
 
   return (
-    <div className="container">
-      {loading ? (
-        <div
-          style={{
-            color: "black",
-            fontSize: "16px",
-            textAlign: "center",
-            margin: "20px 0",
-            fontWeight: "bold",
-          }}
+    <div className={styles["owners-container"]}>
+      <div className={styles["add-button-container"]}>
+        <h1>Playground Owners</h1>
+        <button
+          className={styles["add-button"]}
+          onClick={() => navigate("/playgrounds-owners/add")}
         >
-          Loading owners...
-        </div>
-      ) : error ? (
-        <div
-          style={{
-            color: "red",
-            fontSize: "16px",
-            textAlign: "center",
-            margin: "20px 0",
-            fontWeight: "bold",
-          }}
-        >
-          {error}
-        </div>
-      ) : (
-        <DataTable
-          title="Playground Owners List"
-          defaultSortAsc={false}
-          pagination
-          highlightOnHover
-          columns={columns}
-          data={owners || []}
-          customStyles={customStyles}
-          paginationPerPage={6}
-          paginationRowsPerPageOptions={[6, 10, 15]}
-          noDataComponent={
-            <div
-              style={{
-                color: "black",
-                fontSize: "16px",
-                textAlign: "center",
-                margin: "20px 0",
-                fontWeight: "bold",
-              }}
-            >
-              No owners found
-            </div>
-          }
-        />
-      )}
+          Add New Owner
+        </button>
+      </div>
+
+      <div className={styles["owners-content"]}>
+        {loading ? (
+          <div className={styles.loading}>Loading owners...</div>
+        ) : error ? (
+          <div className={styles.error}>{error}</div>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={owners || []}
+            pagination
+            paginationPerPage={6}
+            paginationRowsPerPageOptions={[6, 10, 15]}
+            customStyles={customStyles}
+            highlightOnHover
+            noDataComponent={
+              <div className={styles.noData}>No owners found</div>
+            }
+          />
+        )}
+      </div>
     </div>
   );
 };

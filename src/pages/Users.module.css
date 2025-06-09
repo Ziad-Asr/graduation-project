@@ -1,0 +1,72 @@
+.users-container {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.users-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: black;
+}
+
+.add-button {
+  background-color: #2d62ed;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #1d4ed8;
+}
+
+.editIcon {
+  color: #2d62ed;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.editIcon:hover {
+  color: #1d4ed8;
+}
+
+.loading,
+.error,
+.noData {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.loading {
+  color: black;
+}
+
+.error {
+  color: red;
+}
+
+.noData {
+  color: black;
+}

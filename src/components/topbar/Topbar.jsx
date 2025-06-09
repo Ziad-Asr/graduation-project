@@ -1,38 +1,36 @@
-import { IoMdHelpBuoy } from "react-icons/io";
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { IoLogOut } from "react-icons/io5";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./Topbar.css";
 
 const Topbar = () => {
-  const menuRef = useRef(null);
-  const toggleCheckboxRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const routeNames = {
     "/users": "Dashboard / Users",
     "/facilities": "Dashboard / Facilities",
     "/employees": "Dashboard / Employees",
     "/playgrounds-owners": "Dashboard / Playgrounds Owners",
+    "/sports": "Dashboard / Sports",
+    "/courts": "Dashboard / Courts",
   };
   const sectionName = routeNames[location.pathname] || "Dashboard";
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        toggleCheckboxRef.current &&
-        !toggleCheckboxRef.current.contains(event.target)
-      ) {
-        toggleCheckboxRef.current.checked = false;
-      }
-    }
+  const handleLogout = () => {
+    // Clear localStorage
+    localStorage.clear();
 
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+    // Clear cookies
+    document.cookie.split(";").forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+
+    toast.success("Logged out successfully!");
+    navigate("/login");
+  };
 
   return (
     <div className="topbar">
@@ -40,38 +38,12 @@ const Topbar = () => {
 
       <div className="section-icons">
         <div className="links">
-          <input
-            type="checkbox"
-            id="toggle1"
-            className="toggle-hidden"
-            ref={toggleCheckboxRef}
-          />
-          <div className="parent-div">
-            <label htmlFor="toggle1" className="toggle-label">
-              <div className="icons">
-                <div className="help">
-                  <span>Help</span>
-                  <div className="help-icon">
-                    <IoMdHelpBuoy />
-                  </div>
-                </div>
-              </div>
-            </label>
-            <ul ref={menuRef} className="dropdown-menu">
-              <li>
-                <span className="topbar-link">Services</span>
-              </li>
-              <li>
-                <span className="topbar-link">Portfolio</span>
-              </li>
-              <li>
-                <span className="topbar-link">About</span>
-              </li>
-              <li>
-                <span className="topbar-link">Contact</span>
-              </li>
-            </ul>
-          </div>
+          <button onClick={handleLogout} className="logout-button">
+            <div className="logout-icon">
+              <IoLogOut />
+            </div>
+            <span>Logout</span>
+          </button>
         </div>
       </div>
     </div>

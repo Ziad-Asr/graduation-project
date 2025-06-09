@@ -1,6 +1,5 @@
 .edit-sport-container {
   padding: 20px;
-  background-color: #f7f7f7;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -17,7 +16,6 @@
 }
 
 .edit-sport-content h1 {
-  color: #797981;
   font-size: 24px;
   margin-bottom: 30px;
   text-align: center;
