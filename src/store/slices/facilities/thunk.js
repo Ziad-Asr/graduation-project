@@ -7,8 +7,17 @@ export const fetchFacilities = createAsyncThunk(
   "facilities/fetchFacilities",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await useGetData(`/Facilities/GetAll`);
-      return response;
+      const role = JSON.parse(localStorage.getItem("userData"))?.role;
+      const ownerID = JSON.parse(localStorage.getItem("userData"))?.id;
+      let response;
+
+      if (role === "Admin") {
+        response = await useGetData(`/Facilities?isOwner=false`);
+      } else {
+        response = await useGetData(`/Facilities?ownerId=${ownerID}`);
+      }
+
+      return response?.data;
     } catch (error) {
       let errorMessage = "An error occurred while fetching facilities.";
       if (error.messege.includes("Network Error")) {
@@ -30,7 +39,7 @@ export const fetchFacilityById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await useGetData(`/Facilities/${id}`);
-      return response;
+      return response?.data;
     } catch (error) {
       let errorMessage = "An error occurred while fetching facility details.";
       if (error.messege.includes("Network Error")) {

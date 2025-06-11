@@ -7,8 +7,11 @@ export const fetchBookings = createAsyncThunk(
   async ({ courtId, date }, { rejectWithValue }) => {
     try {
       const response = await useGetData(`/Booking/${courtId}/${date}`);
-      // Ensure we return an array even if the response is empty
-      return Array.isArray(response) ? response : [];
+
+      console.log("response");
+      console.log(response);
+
+      return response;
     } catch (error) {
       let errorMessage = "An error occurred while fetching bookings.";
       if (error.message?.includes("Network Error")) {

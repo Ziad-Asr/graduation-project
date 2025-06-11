@@ -18,12 +18,14 @@ export const login = createAsyncThunk(
         email: userEmail,
         role,
         phoneNumber,
+        id,
       } = response.data;
 
       localStorage.setItem("userToken", token);
       localStorage.setItem(
         "userData",
         JSON.stringify({
+          id: id || null,
           name: name || null,
           email: userEmail || null,
           phoneNumber: phoneNumber || null,
@@ -45,14 +47,8 @@ export const login = createAsyncThunk(
         const { success, message, errors } = error.response.data;
         if (success === false) {
           if (errors && Array.isArray(errors) && errors.length > 0) {
-            console.log("11111111");
-            console.log(errors);
-
             return rejectWithValue(errors[0]);
           } else if (message) {
-            console.log("222222222");
-            console.log(message);
-
             return rejectWithValue(message);
           }
         }

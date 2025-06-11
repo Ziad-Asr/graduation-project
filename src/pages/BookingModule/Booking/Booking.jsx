@@ -37,12 +37,6 @@ const Booking = () => {
 
   const columns = [
     {
-      name: "Booking ID",
-      selector: (row) => row.id,
-      sortable: true,
-      center: true,
-    },
-    {
       name: "Court Name",
       selector: (row) => row.courtName,
       sortable: true,
@@ -57,12 +51,6 @@ const Booking = () => {
     {
       name: "Time Slot",
       selector: (row) => row.timeSlot,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "User Name",
-      selector: (row) => row.userName,
       sortable: true,
       center: true,
     },
@@ -102,8 +90,29 @@ const Booking = () => {
     },
   };
 
-  // Ensure bookings is always an array
-  const tableData = Array.isArray(bookings) ? bookings : [];
+  const formatBookings = (bookings) => {
+    if (!bookings || !bookings.bookingSlots) return [];
+
+    const { courtId, bookingSlots } = bookings;
+    const court = courts.find((c) => c.id === courtId);
+    const courtName = court ? court.name : `Court #${courtId}`;
+
+    const result = [];
+
+    Object.entries(bookingSlots).forEach(([date, slots]) => {
+      slots.forEach((slot) => {
+        result.push({
+          courtName,
+          date,
+          timeSlot: `${slot.startTime} - ${slot.endTime}`,
+        });
+      });
+    });
+
+    return result;
+  };
+
+  const tableData = formatBookings(bookings);
 
   return (
     <div className={styles["page"]}>

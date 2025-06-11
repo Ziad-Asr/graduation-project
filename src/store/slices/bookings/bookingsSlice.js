@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const bookingsSlice = createSlice({
-  name: "bookingsSlice",
+  name: "bookings",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -19,12 +19,11 @@ const bookingsSlice = createSlice({
       })
       .addCase(fetchBookings.fulfilled, (state, action) => {
         state.loading = false;
-        state.bookings = action.payload || [];
+        state.bookings = action.payload;
       })
       .addCase(fetchBookings.rejected, (state, action) => {
         state.loading = false;
-        state.bookings = [];
-        state.error = action.payload || "Something went wrong";
+        state.error = action.payload;
       });
   },
 });
