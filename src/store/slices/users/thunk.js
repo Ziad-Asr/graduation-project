@@ -12,7 +12,7 @@ export const fetchUsers = createAsyncThunk(
         throw new Error("Invalid response from server.");
       }
 
-      return response;
+      return response?.data;
     } catch (error) {
       let errorMessage = "An error occurred while fetching users.";
 

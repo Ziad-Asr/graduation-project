@@ -1,20 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import { FaEdit } from "react-icons/fa";
-import styles from "./PlaygroundOwners.module.css";
-import { fetchPlaygroundOwners } from "../store/slices/playgroundOwners/thunk";
+import styles from "./Users.module.css";
+import { fetchUsers } from "../../store/slices/users/thunk";
 
-const PlaygroundOwners = () => {
+const Users = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { owners, loading, error } = useSelector(
-    (state) => state.playgroundOwnersSlice
-  );
+  const { users, loading, error } = useSelector((state) => state.usersSlice);
 
   useEffect(() => {
-    dispatch(fetchPlaygroundOwners());
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   const columns = [
@@ -40,19 +35,6 @@ const PlaygroundOwners = () => {
       name: "Phone Number",
       selector: (row) => row.phoneNumber || "N/A",
       sortable: true,
-      center: true,
-    },
-    {
-      name: "Edit",
-      selector: (row) => (
-        <FaEdit
-          className={styles.editIcon}
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/playgrounds-owners/edit/${row.id}`);
-          }}
-        />
-      ),
       center: true,
     },
   ];
@@ -92,27 +74,27 @@ const PlaygroundOwners = () => {
   };
 
   return (
-    <div className={styles["owners-container"]}>
+    <div className={styles["users-container"]}>
       <div className={styles["add-button-container"]}>
-        <h1>Playground Owners</h1>
+        <h1>Users</h1>
       </div>
 
-      <div className={styles["owners-content"]}>
+      <div className={styles["users-content"]}>
         {loading ? (
-          <div className={styles.loading}>Loading owners...</div>
+          <div className={styles.loading}>Loading users...</div>
         ) : error ? (
           <div className={styles.error}>{error}</div>
         ) : (
           <DataTable
             columns={columns}
-            data={owners || []}
+            data={users || []}
             pagination
             paginationPerPage={6}
             paginationRowsPerPageOptions={[6, 10, 15]}
             customStyles={customStyles}
             highlightOnHover
             noDataComponent={
-              <div className={styles.noData}>No owners found</div>
+              <div className={styles.noData}>No users found</div>
             }
           />
         )}
@@ -121,4 +103,4 @@ const PlaygroundOwners = () => {
   );
 };
 
-export default PlaygroundOwners;
+export default Users;

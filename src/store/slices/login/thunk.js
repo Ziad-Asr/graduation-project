@@ -42,13 +42,18 @@ export const login = createAsyncThunk(
 
       // Handle API errors
       if (error.response) {
-        const { statusCode, messege, errors } = error.response.data;
-
-        if (statusCode === 400 || statusCode === 401) {
+        const { success, message, errors } = error.response.data;
+        if (success === false) {
           if (errors && Array.isArray(errors) && errors.length > 0) {
+            console.log("11111111");
+            console.log(errors);
+
             return rejectWithValue(errors[0]);
-          } else if (messege) {
-            return rejectWithValue(messege);
+          } else if (message) {
+            console.log("222222222");
+            console.log(message);
+
+            return rejectWithValue(message);
           }
         }
       }
@@ -91,13 +96,13 @@ export const register = createAsyncThunk(
 
       // Handle API errors
       if (error.response) {
-        const { statusCode, messege, errors } = error.response.data;
+        const { statusCode, message, errors } = error.response.data;
 
         if (statusCode === 400) {
           if (errors && Array.isArray(errors) && errors.length > 0) {
             return rejectWithValue(errors[0]); // Return first error from array
-          } else if (messege) {
-            return rejectWithValue(messege);
+          } else if (message) {
+            return rejectWithValue(message);
           }
         }
       }

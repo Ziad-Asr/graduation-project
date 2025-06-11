@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchPlaygroundOwners } from "./thunk";
+import { fetchPlaygroundOwners, approveOwner } from "./thunk";
 
 const initialState = {
   owners: [],
@@ -29,6 +29,23 @@ const playgroundOwnersSlice = createSlice({
         state.loading = false;
         state.owners = [];
         state.error = action.payload || "Something went wrong";
+      })
+      .addCase(approveOwner.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(approveOwner.fulfilled, (state, action) => {
+        state.loading = false;
+        // Update the owner's approval status in the list
+        state.owners = state.owners.map((owner) =>
+          owner.id === action.payload.ownerId
+            ? { ...owner, isApproved: true }
+            : owner
+        );
+      })
+      .addCase(approveOwner.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to approve owner";
       });
   },
 });

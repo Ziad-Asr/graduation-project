@@ -8,7 +8,6 @@ export const fetchFacilities = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await useGetData(`/Facilities/GetAll`);
-
       return response;
     } catch (error) {
       let errorMessage = "An error occurred while fetching facilities.";
