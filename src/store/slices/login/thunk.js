@@ -92,9 +92,9 @@ export const register = createAsyncThunk(
 
       // Handle API errors
       if (error.response) {
-        const { statusCode, message, errors } = error.response.data;
+        const { success, message, errors } = error.response.data;
 
-        if (statusCode === 400) {
+        if (success === false) {
           if (errors && Array.isArray(errors) && errors.length > 0) {
             return rejectWithValue(errors[0]); // Return first error from array
           } else if (message) {
