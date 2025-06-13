@@ -15,16 +15,18 @@ const EditFacility = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { owners } = useSelector((state) => state.playgroundOwnersSlice);
+  // const { owners } = useSelector((state) => state.playgroundOwnersSlice);
   const { currentFacility, loading } = useSelector(
     (state) => state.facilitiesSlice
   );
+
+  const ownerId = JSON.parse(localStorage.getItem("userData"))?.id;
 
   const [formData, setFormData] = useState({
     name: "",
     openingTime: "",
     closingTime: "",
-    ownerId: "",
+    ownerId: ownerId,
     address: {
       streetAddress: "",
       city: "",
@@ -108,8 +110,8 @@ const EditFacility = () => {
       const newErrors = { ...prev };
 
       if (field === "name") {
-        if (!value || value.length < 2 || value.length > 10) {
-          newErrors.name = "Name must be between 2 and 10 characters";
+        if (!value || value.length < 2 || value.length > 30) {
+          newErrors.name = "Name must be between 2 and 30 characters";
         } else {
           delete newErrors.name;
         }
@@ -131,26 +133,26 @@ const EditFacility = () => {
         }
       }
 
-      if (field === "ownerId") {
-        if (!value) {
-          newErrors.ownerId = "Owner is required";
-        } else {
-          delete newErrors.ownerId;
-        }
-      }
+      // if (field === "ownerId") {
+      //   if (!value) {
+      //     newErrors.ownerId = "Owner is required";
+      //   } else {
+      //     delete newErrors.ownerId;
+      //   }
+      // }
 
       if (field === "address") {
         if (subField === "streetAddress") {
-          if (!value || value.length < 1 || value.length > 10) {
+          if (!value || value.length < 1 || value.length > 30) {
             newErrors.streetAddress =
-              "Street address must be between 1 and 10 characters";
+              "Street address must be between 1 and 30 characters";
           } else {
             delete newErrors.streetAddress;
           }
         }
         if (subField === "city") {
-          if (!value || value.length < 1 || value.length > 10) {
-            newErrors.city = "City must be between 1 and 10 characters";
+          if (!value || value.length < 1 || value.length > 30) {
+            newErrors.city = "City must be between 1 and 30 characters";
           } else {
             delete newErrors.city;
           }
@@ -179,9 +181,9 @@ const EditFacility = () => {
     if (
       !formData.name ||
       formData.name.length < 2 ||
-      formData.name.length > 10
+      formData.name.length > 30
     ) {
-      newErrors.name = "Name must be between 2 and 10 characters";
+      newErrors.name = "Name must be between 2 and 30 characters";
     }
 
     if (!formData.openingTime) {
@@ -199,18 +201,18 @@ const EditFacility = () => {
     if (
       !formData.address.streetAddress ||
       formData.address.streetAddress.length < 1 ||
-      formData.address.streetAddress.length > 10
+      formData.address.streetAddress.length > 30
     ) {
       newErrors.streetAddress =
-        "Street address must be between 1 and 10 characters";
+        "Street address must be between 1 and 30 characters";
     }
 
     if (
       !formData.address.city ||
       formData.address.city.length < 1 ||
-      formData.address.city.length > 10
+      formData.address.city.length > 30
     ) {
-      newErrors.city = "City must be between 1 and 10 characters";
+      newErrors.city = "City must be between 1 and 30 characters";
     }
 
     if (!formData.address.latitude || !formData.address.longitude) {
@@ -358,7 +360,7 @@ const EditFacility = () => {
             )}
           </div>
 
-          <div className={styles.formGroup}>
+          {/* <div className={styles.formGroup}>
             <label htmlFor="ownerId">Owner</label>
             <select
               id="ownerId"
@@ -377,7 +379,7 @@ const EditFacility = () => {
             {errors.ownerId && (
               <span className={styles.errorText}>{errors.ownerId}</span>
             )}
-          </div>
+          </div> */}
 
           <div className={styles.formGroup}>
             <label htmlFor="streetAddress">Street Address</label>
@@ -416,7 +418,12 @@ const EditFacility = () => {
               onImageChange={handleImageChange}
             />
             {errors.image && (
-              <span className={styles.errorText}>{errors.image}</span>
+              <span
+                className={styles.errorText}
+                style={{ width: "100%", textAlign: "center" }}
+              >
+                {errors.image}
+              </span>
             )}
           </div>
 

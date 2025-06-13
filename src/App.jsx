@@ -28,13 +28,15 @@ function App() {
     location.pathname.startsWith("/login") ||
     location.pathname.startsWith("/register");
 
+  const role = JSON.parse(localStorage.getItem("userData"))?.role;
+
   const isNotFoundPage = ![
     "/",
-    "/users",
+    role === "Admin" && "/users",
     "/facilities",
-    "/playgrounds-owners",
+    role === "Admin" && "/playgrounds-owners",
     "/courts",
-    "/sports",
+    role === "Admin" && "/sports",
     "/booking",
   ].some(
     (route) =>
@@ -72,14 +74,18 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/users"
-              element={
-                <ProtectedRoute>
-                  <Users />
-                </ProtectedRoute>
-              }
-            />
+
+            {role === "Admin" && (
+              <Route
+                path="/users"
+                element={
+                  <ProtectedRoute>
+                    <Users />
+                  </ProtectedRoute>
+                }
+              />
+            )}
+
             <Route
               path="/facilities"
               element={
@@ -88,31 +94,39 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/facilities/add"
-              element={
-                <ProtectedRoute>
-                  <AddFacility />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/facilities/edit/:id"
-              element={
-                <ProtectedRoute>
-                  <EditFacility />
-                </ProtectedRoute>
-              }
-            />
-            {/* <Route path="/employees" element={<Employees />} /> */}
-            <Route
-              path="/playgrounds-owners"
-              element={
-                <ProtectedRoute>
-                  <PlaygroundsOwners />
-                </ProtectedRoute>
-              }
-            />
+            {role === "Owner" && (
+              <Route
+                path="/facilities/add"
+                element={
+                  <ProtectedRoute>
+                    <AddFacility />
+                  </ProtectedRoute>
+                }
+              />
+            )}
+
+            {role === "Owner" && (
+              <Route
+                path="/facilities/edit/:id"
+                element={
+                  <ProtectedRoute>
+                    <EditFacility />
+                  </ProtectedRoute>
+                }
+              />
+            )}
+
+            {role === "Admin" && (
+              <Route
+                path="/playgrounds-owners"
+                element={
+                  <ProtectedRoute>
+                    <PlaygroundsOwners />
+                  </ProtectedRoute>
+                }
+              />
+            )}
+
             <Route
               path="/courts"
               element={
@@ -137,30 +151,40 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/sports"
-              element={
-                <ProtectedRoute>
-                  <Sports />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/sports/add"
-              element={
-                <ProtectedRoute>
-                  <AddSport />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/sports/edit/:id"
-              element={
-                <ProtectedRoute>
-                  <EditSport />
-                </ProtectedRoute>
-              }
-            />
+
+            {role === "Admin" && (
+              <Route
+                path="/sports"
+                element={
+                  <ProtectedRoute>
+                    <Sports />
+                  </ProtectedRoute>
+                }
+              />
+            )}
+
+            {role === "Admin" && (
+              <Route
+                path="/sports/add"
+                element={
+                  <ProtectedRoute>
+                    <AddSport />
+                  </ProtectedRoute>
+                }
+              />
+            )}
+
+            {role === "Admin" && (
+              <Route
+                path="/sports/edit/:id"
+                element={
+                  <ProtectedRoute>
+                    <EditSport />
+                  </ProtectedRoute>
+                }
+              />
+            )}
+
             <Route
               path="/booking"
               element={

@@ -10,41 +10,65 @@ import { FaCrown } from "react-icons/fa6";
 import "./Sidebar.css";
 
 const SideBar = () => {
+  const role = JSON.parse(localStorage.getItem("userData"))?.role;
+  const ownerName = JSON.parse(localStorage.getItem("userData"))?.name;
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const routes = [
-    {
-      path: "/playgrounds-owners",
-      name: "Playgrounds Owners",
-      icon: <FaCrown />,
-    },
-    {
-      path: "/users",
-      name: "Users",
-      icon: <FaUsers />,
-    },
-    {
-      path: "/facilities",
-      name: "Facilities",
-      icon: <GiSoccerField />,
-    },
-    {
-      path: "/courts",
-      name: "Courts",
-      icon: <GiSoccerField />,
-    },
-    {
-      path: "/sports",
-      name: "Sports",
-      icon: <GiSoccerField />,
-    },
-    {
-      path: "/booking",
-      name: "Booking",
-      icon: <GiSoccerField />,
-    },
-  ];
+  let routes;
+
+  if (role === "Admin") {
+    routes = [
+      {
+        path: "/playgrounds-owners",
+        name: "Playgrounds Owners",
+        icon: <FaCrown />,
+      },
+      {
+        path: "/users",
+        name: "Users",
+        icon: <FaUsers />,
+      },
+      {
+        path: "/facilities",
+        name: "Facilities",
+        icon: <GiSoccerField />,
+      },
+      {
+        path: "/courts",
+        name: "Courts",
+        icon: <GiSoccerField />,
+      },
+      {
+        path: "/sports",
+        name: "Sports",
+        icon: <GiSoccerField />,
+      },
+      {
+        path: "/booking",
+        name: "Booking",
+        icon: <GiSoccerField />,
+      },
+    ];
+  } else {
+    routes = [
+      {
+        path: "/facilities",
+        name: "Facilities",
+        icon: <GiSoccerField />,
+      },
+      {
+        path: "/courts",
+        name: "Courts",
+        icon: <GiSoccerField />,
+      },
+      {
+        path: "/booking",
+        name: "Booking",
+        icon: <GiSoccerField />,
+      },
+    ];
+  }
 
   const showAnimation = {
     hidden: {
@@ -86,7 +110,7 @@ const SideBar = () => {
                 exit="hidden"
                 className="logo"
               >
-                Company
+                {ownerName}
               </motion.h1>
             )}
           </AnimatePresence>

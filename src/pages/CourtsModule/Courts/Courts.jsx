@@ -10,56 +10,94 @@ const Courts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { courts } = useSelector((state) => state.courtsSlice);
+  const role = JSON.parse(localStorage.getItem("userData"))?.role;
 
   useEffect(() => {
     dispatch(fetchCourts());
   }, [dispatch]);
 
-  const columns = [
-    {
-      name: "Court Name",
-      selector: (row) => row?.name,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Facility ID",
-      selector: (row) => row.facilityId,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Sport ID",
-      selector: (row) => row.sportId,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Capacity",
-      selector: (row) => row?.capacity,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Price Per Hour",
-      selector: (row) => `$${row?.pricePerHour}`,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Edit",
-      selector: (row) => (
-        <FaEdit
-          className={styles.editIcon}
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/courts/edit/${row.id}`);
-          }}
-        />
-      ),
-      center: true,
-    },
-  ];
+  let columns;
+
+  if (role === "Admin") {
+    columns = [
+      {
+        name: "Court Name",
+        selector: (row) => row?.name,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Facility ID",
+        selector: (row) => row.facilityId,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Sport ID",
+        selector: (row) => row.sportId,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Capacity",
+        selector: (row) => row?.capacity,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Price Per Hour",
+        selector: (row) => `$${row?.pricePerHour}`,
+        sortable: true,
+        center: true,
+      },
+    ];
+  } else {
+    columns = [
+      {
+        name: "Court Name",
+        selector: (row) => row?.name,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Facility ID",
+        selector: (row) => row.facilityId,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Sport ID",
+        selector: (row) => row.sportId,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Capacity",
+        selector: (row) => row?.capacity,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Price Per Hour",
+        selector: (row) => `$${row?.pricePerHour}`,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Edit",
+        selector: (row) => (
+          <FaEdit
+            className={styles.editIcon}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/courts/edit/${row.id}`);
+            }}
+          />
+        ),
+        center: true,
+      },
+    ];
+  }
 
   const customStyles = {
     rows: {
@@ -99,12 +137,14 @@ const Courts = () => {
     <div className={styles["courts-container"]}>
       <div className={styles["add-button-container"]}>
         <h1>Courts</h1>
-        <button
-          className={styles["add-button"]}
-          onClick={() => navigate("/courts/add")}
-        >
-          Add New Court
-        </button>
+        {role === "Owner" && (
+          <button
+            className={styles["add-button"]}
+            onClick={() => navigate("/courts/add")}
+          >
+            Add New Court
+          </button>
+        )}
       </div>
 
       <div className={styles["courts-content"]}>
