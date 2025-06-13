@@ -8,13 +8,12 @@ export const fetchFacilities = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const role = JSON.parse(localStorage.getItem("userData"))?.role;
-      const ownerID = JSON.parse(localStorage.getItem("userData"))?.id;
       let response;
 
       if (role === "Admin") {
         response = await useGetData(`/Facilities?isOwner=false`);
       } else {
-        response = await useGetData(`/Facilities?ownerId=${ownerID}`);
+        response = await useGetData(`/Facilities?isOwner=true`);
       }
 
       return response?.data;

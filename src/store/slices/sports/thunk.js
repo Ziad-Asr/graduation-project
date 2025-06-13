@@ -29,7 +29,14 @@ export const addSport = createAsyncThunk(
   "sports/addSport",
   async (sportName, { rejectWithValue }) => {
     try {
-      const response = await baseURL.post(`/Sport/add?SportName=${sportName}`);
+      const formData = new FormData();
+      formData.append("name", sportName);
+
+      const response = await baseURL.post(`/Sport/add`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response.data;
     } catch (error) {
       let errorMessage = "Failed to add sport.";
@@ -45,7 +52,15 @@ export const updateSport = createAsyncThunk(
   "sports/updateSport",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await baseURL.put("/Sport/Update", formData);
+      const data = new FormData();
+      data.append("Id", formData.id);
+      data.append("name", formData.name);
+
+      const response = await baseURL.put("/Sport/Update", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response.data;
     } catch (error) {
       let errorMessage = "Failed to update sport.";

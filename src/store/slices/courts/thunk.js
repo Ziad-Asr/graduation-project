@@ -8,7 +8,16 @@ export const fetchCourts = createAsyncThunk(
   "courts/fetchCourts",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await useGetData(`/Court/GetAll`);
+      const role = JSON.parse(localStorage.getItem("userData"))?.role;
+      const ownerID = JSON.parse(localStorage.getItem("userData"))?.id;
+      let response;
+
+      if (role === "Admin") {
+        response = await useGetData(`/Court/GetAll?isOwner=false`);
+      } else {
+        response = await useGetData(`/Court/GetAll?ownerId=${ownerID}`);
+      }
+
       return response;
     } catch (error) {
       let errorMessage = "An error occurred while fetching courts.";
