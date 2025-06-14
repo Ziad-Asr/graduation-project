@@ -61,15 +61,13 @@ const Login = () => {
         <img src={loginImages} alt="login" className={styles.login_images} />
         <div className={styles.left_text}>
           One platform for managing <br />
-          <span className={styles.left_bold_text}>
-            all manufacturing aspects
-          </span>
+          <span className={styles.left_bold_text}>all sports aspects</span>
         </div>
       </div>
       <div className={styles.right_div}>
         <div className={styles.right_logo}>
           <img src={logo} alt="logo" className={styles.logo_image} />
-          <div className={styles.logo_text}>Perfect</div>
+          <div className={styles.logo_text}>Sports reservation</div>
         </div>
 
         <h3 className={styles.login_title}>

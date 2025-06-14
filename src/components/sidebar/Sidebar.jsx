@@ -1,11 +1,15 @@
 import { NavLink } from "react-router-dom";
-import { FaUsers } from "react-icons/fa";
 import { FaBars } from "react-icons/fa";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 import { GiSoccerField } from "react-icons/gi";
-import { FaCrown } from "react-icons/fa6";
+import ownersSVG from "../../assets/owners.svg";
+import usersSVG from "../../assets/users.svg";
+import facilitiesSVG from "../../assets/facilities.svg";
+import courtsSVG from "../../assets/courts.svg";
+import sportsSVG from "../../assets/sports.svg";
+import bookingsSVG from "../../assets/booking.svg";
 
 import "./Sidebar.css";
 
@@ -22,32 +26,68 @@ const SideBar = () => {
       {
         path: "/playgrounds-owners",
         name: "Playgrounds Owners",
-        icon: <FaCrown />,
+        icon: (
+          <img
+            src={ownersSVG}
+            alt="Owners"
+            style={{ width: "20px", height: "20px" }}
+          />
+        ),
       },
       {
         path: "/users",
         name: "Users",
-        icon: <FaUsers />,
+        icon: (
+          <img
+            src={usersSVG}
+            alt="Owners"
+            style={{ width: "20px", height: "20px" }}
+          />
+        ),
       },
       {
         path: "/facilities",
         name: "Facilities",
-        icon: <GiSoccerField />,
+        icon: (
+          <img
+            src={facilitiesSVG}
+            alt="Owners"
+            style={{ width: "20px", height: "20px" }}
+          />
+        ),
       },
       {
         path: "/courts",
         name: "Courts",
-        icon: <GiSoccerField />,
+        icon: (
+          <img
+            src={courtsSVG}
+            alt="Owners"
+            style={{ width: "20px", height: "20px" }}
+          />
+        ),
       },
       {
         path: "/sports",
         name: "Sports",
-        icon: <GiSoccerField />,
+        icon: (
+          <img
+            src={sportsSVG}
+            alt="Owners"
+            style={{ width: "20px", height: "20px" }}
+          />
+        ),
       },
       {
         path: "/booking",
         name: "Booking",
-        icon: <GiSoccerField />,
+        icon: (
+          <img
+            src={bookingsSVG}
+            alt="Owners"
+            style={{ width: "20px", height: "20px" }}
+          />
+        ),
       },
     ];
   } else {
