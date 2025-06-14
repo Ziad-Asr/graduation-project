@@ -1,4 +1,3 @@
-// src/store/slices/courts/courtsSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchCourts, addCourt, fetchCourtById, updateCourt } from "./thunk";
 
@@ -19,7 +18,6 @@ const courtsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // FETCH ALL COURTS
       .addCase(fetchCourts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -34,7 +32,6 @@ const courtsSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // FETCH COURT BY ID
       .addCase(fetchCourtById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -49,7 +46,6 @@ const courtsSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // ADD COURT
       .addCase(addCourt.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -63,7 +59,6 @@ const courtsSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // UPDATE COURT
       .addCase(updateCourt.pending, (state) => {
         state.loading = true;
         state.error = null;

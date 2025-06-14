@@ -16,7 +16,6 @@ const loginSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Login cases
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -34,7 +33,6 @@ const loginSlice = createSlice({
         state.userLoginResponseInfo = null;
         state.error = action.payload || "Something went wrong";
       })
-      // Register cases
       .addCase(register.pending, (state) => {
         state.registerLoading = true;
         state.registerError = null;

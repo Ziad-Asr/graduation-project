@@ -1,4 +1,3 @@
-// src/store/slices/courts/thunk.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useGetData } from "../../../hooks/useGetData";
 import { toast } from "react-toastify";

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import styles from "./SuccessPopup.module.css";
 
 const SuccessPopup = ({ message, onClose }) => {
-  // Prevent scrolling when popup is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {

@@ -7,17 +7,11 @@ const SecondTopbar = () => {
       <div className={styles["topbar-right-content"]}>
         <div className={styles["section"]}>
           <div className={styles.products}>
-            <div
-              className={styles["add-text"]}
-              //   onClick={onAddBranchClick}
-            >
+            <div className={styles["add-text"]}>
               <span>Add</span>
             </div>
           </div>
-          <div
-            className={styles["add-icon"]}
-            //   onClick={onAddBranchClick}
-          >
+          <div className={styles["add-icon"]}>
             <GrFormAdd />
           </div>
         </div>

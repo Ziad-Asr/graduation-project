@@ -23,14 +23,12 @@ const facilitiesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // FETCH ALL FACILITIES
       .addCase(fetchFacilities.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchFacilities.fulfilled, (state, action) => {
         state.loading = false;
-        // Ensure we only store serializable data
         state.facilities =
           action.payload?.map((facility) => ({
             id: facility.id,
@@ -53,7 +51,6 @@ const facilitiesSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // FETCH FACILITY BY ID
       .addCase(fetchFacilityById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -81,14 +78,12 @@ const facilitiesSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // ADD FACILITY
       .addCase(addFacility.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(addFacility.fulfilled, (state, action) => {
         state.loading = false;
-        // Ensure we only store serializable data
         const newFacility = {
           id: action.payload.id,
           name: action.payload.name,
@@ -110,7 +105,6 @@ const facilitiesSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // UPDATE FACILITY
       .addCase(updateFacility.pending, (state) => {
         state.loading = true;
         state.error = null;

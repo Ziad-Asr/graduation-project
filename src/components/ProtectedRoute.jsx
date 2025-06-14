@@ -5,7 +5,6 @@ const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("userToken");
   const location = useLocation();
 
-  // If there's no token and trying to access protected routes, redirect to login
   if (
     !token &&
     location.pathname !== "/login" &&
@@ -14,7 +13,6 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // If there's a token and trying to access auth routes (login/register), redirect to home
   if (
     token &&
     (location.pathname === "/login" || location.pathname === "/register")

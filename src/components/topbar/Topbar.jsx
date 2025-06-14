@@ -18,10 +18,8 @@ const Topbar = () => {
   const sectionName = routeNames[location.pathname] || "Dashboard";
 
   const handleLogout = () => {
-    // Clear localStorage
     localStorage.clear();
 
-    // Clear cookies
     document.cookie.split(";").forEach((c) => {
       document.cookie = c
         .replace(/^ +/, "")

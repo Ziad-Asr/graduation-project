@@ -36,7 +36,6 @@ const playgroundOwnersSlice = createSlice({
       })
       .addCase(approveOwner.fulfilled, (state, action) => {
         state.loading = false;
-        // Update the owner's approval status in the list
         state.owners = state.owners.map((owner) =>
           owner.id === action.payload.ownerId
             ? { ...owner, isApproved: true }

@@ -35,14 +35,12 @@ export const login = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      // Handle network errors
       if (error.message.includes("Network Error")) {
         return rejectWithValue(
           "No internet connection. Please check your connection."
         );
       }
 
-      // Handle API errors
       if (error.response) {
         const { success, message, errors } = error.response.data;
         if (success === false) {
@@ -54,7 +52,6 @@ export const login = createAsyncThunk(
         }
       }
 
-      // Handle any other errors
       return rejectWithValue("An error occurred during login.");
     }
   }
@@ -80,35 +77,30 @@ export const register = createAsyncThunk(
 
       const response = await useInsertData("/OwnerAuth/OwnerRegister", data);
 
-      // If we get here, the request was successful (status 200)
       return response.data;
     } catch (error) {
-      // Handle network errors
       if (error.message.includes("Network Error")) {
         return rejectWithValue(
           "No internet connection. Please check your connection."
         );
       }
 
-      // Handle API errors
       if (error.response) {
         const { success, message, errors } = error.response.data;
 
         if (success === false) {
           if (errors && Array.isArray(errors) && errors.length > 0) {
-            return rejectWithValue(errors[0]); // Return first error from array
+            return rejectWithValue(errors[0]);
           } else if (message) {
             return rejectWithValue(message);
           }
         }
       }
 
-      // Handle validation errors
       if (error.message.includes("Missing required fields")) {
         return rejectWithValue(error.message);
       }
 
-      // Handle any other errors
       return rejectWithValue("An error occurred during registration.");
     }
   }

@@ -16,7 +16,6 @@ import Sports from "./pages/SportsModule/Sports/Sports";
 import AddSport from "./pages/SportsModule/AddSport/AddSport";
 import EditSport from "./pages/SportsModule/EditSport/EditSport";
 import NotFound from "./pages/NotFound/NotFound";
-// import Employees from "./pages/Employees";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./app.css";

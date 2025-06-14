@@ -18,7 +18,6 @@ const sportsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // FETCH ALL SPORTS
       .addCase(fetchSports.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -33,7 +32,6 @@ const sportsSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // ADD SPORT
       .addCase(addSport.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -47,7 +45,6 @@ const sportsSlice = createSlice({
         state.error = action.payload || "Something went wrong";
       })
 
-      // UPDATE SPORT
       .addCase(updateSport.pending, (state) => {
         state.loading = true;
         state.error = null;
